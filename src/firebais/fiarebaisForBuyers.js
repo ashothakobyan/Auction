@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "@firebase/firestore/lite";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
@@ -22,11 +23,21 @@ export async function getCities(db) {
     const cityList = citySnapshot.docs.map(doc => doc.data());
     console.log(cityList)
   }
-
-  
-
 const auth = getAuth();
- createUserWithEmailAndPassword(auth, "hakobyanashot2000@mail.ru", "123456789")
+
+export const addBuyer = async (name,surName,email) => {
+  const data = {
+    name:name,
+    surName:surName,
+    email:email,
+    balans:1000000,
+    myItems:[]
+  }
+  await setDoc(doc(db, "Users",email ), data);
+}
+
+export const createUserForBuyer = (email,password) =>{
+  createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
@@ -38,3 +49,5 @@ const auth = getAuth();
     const errorMessage = error.message;
     // ..
   });
+}
+ 

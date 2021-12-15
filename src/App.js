@@ -1,13 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-import { db, getCities } from './firebais/fiarebais';
+import Auction from './Components/Auction';
+import React from 'react';
 
 function App() {
   return (
-    <div className="App">
-      a
-
+    <div>
+      <Auction />
     </div>
+          
   );
 }
 
