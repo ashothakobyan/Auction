@@ -4,6 +4,7 @@ import { Link, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import SignUpForBuyer from "./SingnUpForBuyer"
 import SignInForBuyer from "./SingnInForBuyer"
+import BuyerPage from "./BuyerPage";
 
 function Auction(){
 
@@ -18,6 +19,7 @@ function Auction(){
                 <Route path="/home" element={ <Home />} />
                 <Route path="/signUpForBuyer" element={<SignUpForBuyer />}/>
                 <Route path="/signInForBuyer" element={<SignInForBuyer />}/>
+                <Route path="/pageForBuyer" element={<BuyerPage />} />
             </Routes>
         </div>
 
