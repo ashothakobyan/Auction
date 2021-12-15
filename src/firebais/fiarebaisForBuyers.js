@@ -33,8 +33,19 @@ export const addBuyer = async (name,surName,email) => {
     balans:1000000,
     myItems:[]
   }
-  await setDoc(doc(db, "Users",email ), data);
+  await setDoc(doc(db, "BuyerUsers",email ), data);
 }
+
+export const addSeler = async (name,surName,email) => {
+  const data = {
+    name:name,
+    surName:surName,
+    email:email,
+    itemsForSell:[]
+  }
+  await setDoc(doc(db, "SelerUsers",email ), data);
+}
+
 
 export const createUserForBuyer = (email,password) =>{
   createUserWithEmailAndPassword(auth, email, password)
