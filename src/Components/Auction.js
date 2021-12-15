@@ -12,11 +12,12 @@ function Auction(){
 
         <div>
              <Link to="/home">home</Link>
+             <Link to ="/" />
              
             
 
             <Routes>
-                <Route path="/home" element={ <Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/signUpForBuyer" element={<SignUpForBuyer />}/>
                 <Route path="/signInForBuyer" element={<SignInForBuyer />}/>
                 <Route path="/pageForBuyer" element={<BuyerPage />} />
