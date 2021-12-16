@@ -6,9 +6,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ButtonAppBar() {
+  const asd=useNavigate()
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -26,6 +27,7 @@ export default function ButtonAppBar() {
             News
           </Typography>
           <Link to="/signInForBuyer" >SignIN</Link>
+          <Button onClick={()=>asd("/signInForBuyer")}>SignIn </Button>
         </Toolbar>
       </AppBar>
     </Box>
