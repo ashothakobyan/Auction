@@ -26,10 +26,10 @@ export default function ButtonAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          <Link to="/signInForBuyer" >SignIN</Link>
+          
           <Button onClick={()=>asd("/signInForBuyer")}>SignIn </Button>
         </Toolbar>
       </AppBar>
     </Box>
-  );
+  )
 }
