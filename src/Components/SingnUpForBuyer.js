@@ -13,6 +13,10 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { addBuyer, createUserForBuyer } from "../firebais/fiarebaisForBuyers"
+import { useNavigate } from "react-router-dom"
+import { getAuth } from "firebase/auth"
+import { setUser } from "../Redux/Slicder"
+import { useDispatch } from "react-redux"
 
 function Copyright(props) {
   return (
@@ -30,7 +34,14 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const dispatch  = useDispatch()
+
+
+  const singUp = (str) => {
+    navigate(str)
+  }
+   const handleSubmit = async(event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
@@ -41,9 +52,24 @@ export default function SignUp() {
       surName: data.get("lastName"),
     }
 
-    addBuyer(user.name, user.surName, user.email)
+     addBuyer(user.name, user.surName, user.email)
 
-    createUserForBuyer(user.email, user.password)
+    await createUserForBuyer(user.email, user.password)
+     let auth = await getAuth();
+    console.log(auth)
+    
+    
+    await dispatch(setUser({
+      payload:{...user,uid:auth.currentUser?.uid,balanse:100000}
+    }))
+    
+
+
+      navigate("/")
+  
+
+    
+
   }
 
   return (
