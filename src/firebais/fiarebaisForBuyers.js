@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app"
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc } from "@firebase/firestore/lite"
+import { useNavigate } from "react-router-dom"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
@@ -17,14 +18,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 
+
 export async function getCities(db) {
   const citiesCol = collection(db, "User")
   const citySnapshot = await getDocs(citiesCol)
   const cityList = citySnapshot.docs.map((doc) => doc.data())
   console.log(cityList)
 }
-const auth = getAuth()
-
+export const auth = getAuth()
 export const addBuyer = async (name, surName, email) => {
   const data = {
     name: name,
@@ -37,20 +38,6 @@ export const addBuyer = async (name, surName, email) => {
 }
 
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    const name = user.name
-    const email = user.email
-    console.log(auth)
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
 
 export const addSeler = async (name, surName, email) => {
   const data = {
@@ -63,14 +50,15 @@ export const addSeler = async (name, surName, email) => {
 }
 
 export const createUserForBuyer = (email, password) => {
+  
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user
-      console.log(user)
       // ...
     })
     .catch((error) => {
+      alert("error")
       const errorCode = error.code
       const errorMessage = error.message
       // ..
