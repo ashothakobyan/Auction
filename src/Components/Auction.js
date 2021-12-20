@@ -4,8 +4,17 @@ import Home from "./Home"
 import SignUpForBuyer from "./SingnUpForBuyer"
 import SignInForBuyer from "./SingnInForBuyer"
 import BuyerPage from "./BuyerPage"
-import MySelerPage from "./MySelerPage"
+
+
+
+
+import MySelerPage from "./MySelerPage/MySelerPage"
+import { db, getCities } from "../firebais/fiarebaisForBuyers"
+import { doc, getDoc } from "firebase/firestore";
 import MyProfile from "./MyProfile"
+
+
+
 
 
 
