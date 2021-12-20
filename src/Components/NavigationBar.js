@@ -13,7 +13,7 @@ import { store } from '../Redux/Store';
 import { initialState, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
 import CardImg from "./CardImg"
-import MySelerPage from './MySelerPage';
+import MySelerPage from './MySelerPage/MySelerPage';
 
 
 
@@ -68,7 +68,10 @@ export default function ButtonAppBar() {
 
   return (
     <>
-<Box sx={{ flexGrow: 1 }}>
+    <div style={{
+      marginBottom:"20px"
+    }}>
+    <Box  sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -114,6 +117,8 @@ export default function ButtonAppBar() {
 
 
     
+
+    </div>
 
     </>
     
