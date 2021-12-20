@@ -19,11 +19,11 @@ const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 
 
-export async function getCities(db) {
-  const citiesCol = collection(db, "User")
+export async function getUsers(db) {
+  const citiesCol = collection(db, "BuyerUsers")
   const citySnapshot = await getDocs(citiesCol)
   const cityList = citySnapshot.docs.map((doc) => doc.data())
-  console.log(cityList)
+  return cityList;
 }
 export const auth = getAuth()
 export const addBuyer = async (name, surName, email) => {
@@ -50,7 +50,7 @@ export const addSeler = async (name, surName, email) => {
 }
 
 export const createUserForBuyer = (email, password) => {
-  
+
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in

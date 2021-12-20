@@ -14,6 +14,7 @@ import { initialState, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
 import CardImg from "./CardImg"
 import MySelerPage from './MySelerPage';
+import { db, getUsers } from '../firebais/fiarebaisForBuyers';
 
 
 
@@ -22,28 +23,42 @@ import MySelerPage from './MySelerPage';
 export default function ButtonAppBar() {
   const auth = getAuth()
   const dispatch = useDispatch()
-  const navigateLink=useNavigate()
-  const liveDrow = useSelector((state)=>state.auction.liveDrow)
-  const sta = useSelector((state)=>state)
-  
-  console.log(sta,auth)
-  const arr = [1,2,3,4,5,6,7,8]
-  
-  let {uid,email} = useSelector((state)=>state.auction.user)
+  const navigateLink = useNavigate()
+  const liveDrow = useSelector((state) => state.auction.liveDrow)
+  const sta = useSelector((state) => state)
 
-  
+  const arr = [1, 2, 3, 4, 5, 6, 7, 8]
+
+  let { uid, email } = useSelector((state) => state.auction.user)
+  let currentUser = "";
+
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      dispatch(setUser(
-        {
-          email:user.email,
-          uid:user.uid
-        }
-      ))
-      uid = user.uid;
-      const name = user.name
-       email = user.email
+
+      const ourusersInfo = () => getUsers(db);
+      const asd = ourusersInfo();
+      asd.then(function (resolve) {
+        const usersInfo = resolve;
+        currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+        dispatch(setUser(
+          {
+            email: user.email,
+            uid: user.uid,
+            name: currentUser.name,
+            surName: currentUser.surName,
+            balance: currentUser.balance,
+            items: currentUser.myItems,
+          }
+        ))
+      })
+
+      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
+      // console.log(userInfo);
+
+      // uid = user.uid;
+      // const name = user.name
+      // email = user.email
       // ...
     } else {
       // User is signed out
@@ -51,7 +66,7 @@ export default function ButtonAppBar() {
     }
   });
 
-  const signout = (str) =>{
+  const signout = (str) => {
     navigateLink(str)
     signOut(auth).then(() => {
       dispatch(setUser(
@@ -64,59 +79,58 @@ export default function ButtonAppBar() {
   }
 
 
-  
+
 
   return (
     <>
-<Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Drawer />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          {
-              console.log(uid),
-          uid?
-          <>
-           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {email}
-          </Typography>
-                    <Button color='warning' onClick={()=>signout("/")}>Log out </Button>
-          </>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <Drawer />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              News
+            </Typography>
+            {
+              uid ?
+                <>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    {email}
+                  </Typography>
+                  <Button color='warning' onClick={() => signout("/")}>Log out </Button>
+                </>
 
-          :
-          <>
-          <Button color='warning' onClick={()=>navigateLink("/signInForBuyer")}>Sign In </Button>
-          <Button color='warning' onClick={()=>navigateLink("/signUpForBuyer")}>Sign Up </Button>
-          </>
-          }
-         
-
-        </Toolbar>
-      </AppBar>
-
-    </Box>
-    
+                :
+                <>
+                  <Button color='warning' onClick={() => navigateLink("/signInForBuyer")}>Sign In </Button>
+                  <Button color='warning' onClick={() => navigateLink("/signUpForBuyer")}>Sign Up </Button>
+                </>
+            }
 
 
-        {/* {
+          </Toolbar>
+        </AppBar>
+
+      </Box>
+
+
+
+      {/* {
           liveDrow === "MySelerPage"?<MySelerPage />:null
-        } */} 
+        } */}
 
 
-    
+
 
     </>
-    
-    
+
+
   )
 }
