@@ -12,9 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { addBuyer, createUserForBuyer } from "../firebais/fiarebaisForBuyers"
+import { addBuyer, auth, createUserForBuyer, db, getUsers } from "../firebais/fiarebaisForBuyers"
 import { useNavigate } from "react-router-dom"
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { setUser } from "../Redux/Slicder"
 import { useDispatch } from "react-redux"
 
@@ -38,9 +38,50 @@ export default function SignUp() {
   const dispatch  = useDispatch()
 
 
-  const singUp = (str) => {
-    navigate(str)
-  }
+
+
+
+
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+
+      const ourusersInfo = () => getUsers(db);
+      const asd = ourusersInfo();
+      asd.then(function (resolve) {
+        const usersInfo = resolve;
+        const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+        dispatch(setUser(
+          {
+            email: user.email,
+            uid: user.uid,
+            name: currentUser.name,
+            surName: currentUser.surName,
+            balance: currentUser.balance,
+            items: currentUser.myItems,
+          }
+        ))
+      })
+
+      navigate("/")
+
+      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
+      // console.log(userInfo);
+
+      // uid = user.uid;
+      // const name = user.name
+      // email = user.email
+      // ...
+    } else {
+      
+      // User is signed out
+      // ...
+    }
+  });
+
+
+
    const handleSubmit = async(event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -52,23 +93,23 @@ export default function SignUp() {
       surName: data.get("lastName"),
     }
 
-     addBuyer(user.name, user.surName, user.email)
+     
 
     await createUserForBuyer(user.email, user.password)
-     let auth = await getAuth();
-    console.log(auth)
-    
-    
-    await dispatch(setUser({
-      payload:{...user,uid:auth.currentUser?.uid,balanse:100000}
-    }))
     
 
-
-      navigate("/")
-  
-
-    
+         addBuyer(user.name, user.surName, user.email,)
+       
+       dispatch(setUser({
+         payload:{
+           name:user.name,
+           surName:user.surName,
+           email:user.email,
+          //  id:currenntUser.id,
+           balance:100000
+         }
+       }))
+       navigate("/")
 
   }
 

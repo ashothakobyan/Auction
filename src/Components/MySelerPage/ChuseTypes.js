@@ -2,14 +2,19 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox() {
+export default function ComboBox({setType}) {
   
+const changeItemType = (e) =>{
+    setType(e.target.innerText)
+    console.log(e.target.innerText)
+}
+
   return (
      <div   style={{
         marginBottom:"20px"
       }}>
           <Autocomplete 
-    
+            onChange={(e)=>changeItemType(e)}
             disablePortal
             id="combo-box-demo"
             options={top100Films}

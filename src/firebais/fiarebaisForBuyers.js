@@ -1,8 +1,11 @@
 import { initializeApp } from "firebase/app"
+import "firebase/auth";
+import 'firebase/storage';
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
 import { doc, setDoc } from "@firebase/firestore/lite"
 import { useNavigate } from "react-router-dom"
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
@@ -17,6 +20,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
+export const storage = getStorage()
 
 
 export async function getUsers(db) {
@@ -32,7 +36,8 @@ export const addBuyer = async (name, surName, email) => {
     surName: surName,
     email: email,
     balans: 1000000,
-    myItems: [],
+    mySelsItems: [],
+    myBougthItems:[]
   }
   await setDoc(doc(db, "BuyerUsers", email), data)
 }
@@ -64,3 +69,5 @@ export const createUserForBuyer = (email, password) => {
       // ..
     })
 }
+
+

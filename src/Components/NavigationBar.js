@@ -12,8 +12,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { store } from '../Redux/Store';
 import { initialState, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
-import CardImg from "./CardImg"
-import MySelerPage from './MySelerPage';
+
 import { db, getUsers } from '../firebais/fiarebaisForBuyers';
 
 
@@ -29,29 +28,45 @@ export default function ButtonAppBar() {
 
   const arr = [1, 2, 3, 4, 5, 6, 7, 8]
 
-  let { uid, email } = useSelector((state) => state.auction.user)
-  let currentUser = "";
+
+  const uid = useSelector((state) => state.auction.user.uid)
+  const email = useSelector((state) => state.auction.user.email)
+
+  const  signout = async (str) => {
+    
+    await signOut(auth).then(() => {
+      dispatch(setUser(
+        initialState
+      ))
+      navigateLink(str)
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
 
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
+      if(!email){
+        const ourusersInfo = () => getUsers(db);
+        const asd = ourusersInfo();
+        asd.then(function (resolve) {
+          const usersInfo = resolve;
+          const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+          dispatch(setUser(
+            {
+              email: user.email,
+              uid: user.uid,
+              name: currentUser.name,
+              surName: currentUser.surName,
+              balance: currentUser.balance,
+              items: currentUser.myItems,
+            }
+          ))
+        })
+      }
 
-      const ourusersInfo = () => getUsers(db);
-      const asd = ourusersInfo();
-      asd.then(function (resolve) {
-        const usersInfo = resolve;
-        currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
-        dispatch(setUser(
-          {
-            email: user.email,
-            uid: user.uid,
-            name: currentUser.name,
-            surName: currentUser.surName,
-            balance: currentUser.balance,
-            items: currentUser.myItems,
-          }
-        ))
-      })
 
       // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
       // console.log(userInfo);
@@ -66,17 +81,7 @@ export default function ButtonAppBar() {
     }
   });
 
-  const signout = (str) => {
-    navigateLink(str)
-    signOut(auth).then(() => {
-      dispatch(setUser(
-        initialState
-      ))
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
+ 
 
 
 
