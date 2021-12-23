@@ -1,0 +1,28 @@
+.image-list_item {
+    color: red;
+}
+
+.filter-btn {
+    display: flex;
+    width: 100%;
+    box-shadow: none !important;
+}
+
+.filter-btn button {
+    width: 100%;
+
+    margin: 30px 10px 0;
+    border-radius: 10px !important;
+}
+
+@media only screen and (max-width: 1024px) {
+    .image-list_item {
+        grid-column-end: span 6 !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .image-list_item {
+        grid-column-end: span 12 !important;
+    }
+}

@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app"
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
-import { doc, setDoc } from "@firebase/firestore/lite"
+import { getFirestore, getDocs,collection } from "firebase/firestore/lite"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { doc, setDoc, getDoc } from "@firebase/firestore/lite"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
@@ -48,6 +49,7 @@ export const addSeler = async (name, surName, email) => {
   }
   await setDoc(doc(db, "SelerUsers", email), data)
 }
+
 
 export const createUserForBuyer = (email, password) => {
   
