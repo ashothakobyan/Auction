@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app"
-import { getFirestore, getDocs,collection } from "firebase/firestore/lite"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-import { doc, setDoc, getDoc } from "@firebase/firestore/lite"
+import "firebase/auth";
+import 'firebase/storage';
+import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { doc, setDoc } from "@firebase/firestore/lite"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
@@ -18,13 +20,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
+export const storage = getStorage()
 
 
-export async function getCities(db) {
-  const citiesCol = collection(db, "User")
+export async function getUsers(db) {
+  const citiesCol = collection(db, "BuyerUsers")
   const citySnapshot = await getDocs(citiesCol)
   const cityList = citySnapshot.docs.map((doc) => doc.data())
-  console.log(cityList)
+  return cityList;
 }
 export const auth = getAuth()
 export const addBuyer = async (name, surName, email) => {
@@ -33,7 +36,8 @@ export const addBuyer = async (name, surName, email) => {
     surName: surName,
     email: email,
     balans: 1000000,
-    myItems: [],
+    mySelsItems: [],
+    myBougthItems:[]
   }
   await setDoc(doc(db, "BuyerUsers", email), data)
 }
@@ -52,7 +56,7 @@ export const addSeler = async (name, surName, email) => {
 
 
 export const createUserForBuyer = (email, password) => {
-  
+
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -66,3 +70,5 @@ export const createUserForBuyer = (email, password) => {
       // ..
     })
 }
+
+

@@ -41,6 +41,8 @@ export default function TemporaryDrawer() {
           <ListItem button key={text} onClick={()=>{
             if(text==="Home Page"){
               navigate("/")
+            } else if (text==="My profile") {
+              navigate("/myProfile")
             }
           }}>
             <ListItemIcon>

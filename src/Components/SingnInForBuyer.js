@@ -12,10 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux"
 import { setUser } from "../Redux/Slicder"
 import { useNavigate } from "react-router-dom"
+import { db, getUsers } from "../firebais/fiarebaisForBuyers"
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -36,6 +37,47 @@ export default function SignIn() {
   const auth = getAuth();
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+
+
+
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+
+      const ourusersInfo = () => getUsers(db);
+      const asd = ourusersInfo();
+      asd.then(function (resolve) {
+        const usersInfo = resolve;
+        const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+        dispatch(setUser(
+          {
+            email: user.email,
+            uid: user.uid,
+            name: currentUser.name,
+            surName: currentUser.surName,
+            balance: currentUser.balance,
+            items: currentUser.myItems,
+          }
+        ))
+      })
+
+      navigate("/")
+
+      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
+      // console.log(userInfo);
+
+      // uid = user.uid;
+      // const name = user.name
+      // email = user.email
+      // ...
+    }
+  });
+
+
+
+
 
   // auth.currentUser?navigate("/"):
 

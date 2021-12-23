@@ -89,8 +89,8 @@ const itemData = [
 
 export default function TitlebarImageList() {
 
-  const [data, setData] = useState([...itemData])
-  const [dataClone, setDataClone] = useState([...itemData])
+  // const [data, setData] = useState([...itemData])
+  const [dataClone, setDataClone] = useState([])
   const [auctionItems,setAuctionItems]=useState([])
   const [activeButton, setActiveButton] = useState('all')
 
@@ -102,6 +102,7 @@ export default function TitlebarImageList() {
       return item.data()
     })
     setAuctionItems(auctionAllItems)
+    setDataClone(auctionAllItems)
   }
 
   useEffect(() => {
