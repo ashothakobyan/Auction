@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { Button, ButtonGroup } from '@mui/material';
 import { db } from "../firebais/fiarebaisForBuyers";
-import { getFirestore, getDocs,collection } from "firebase/firestore/lite"
+import { getFirestore, getDocs,collection, where, query } from "firebase/firestore/lite"
 
 console.log(db)
 const itemData = [
@@ -97,17 +97,19 @@ export default function TitlebarImageList() {
 
   const fetchBlogs= async (db)=>{
     const response=collection(db,'AuctionItems');
-    const data = await getDocs(response);
+    const q = query(response, where("date", ">=", new Date()))
+    const data = await getDocs(q);
     const auctionAllItems = data.docs.map(item => {
+      console.log(item.data())
       return item.data()
     })
     setAuctionItems(auctionAllItems)
     setDataClone(auctionAllItems)
+    console.log(data)
   }
 
   useEffect(() => {
     fetchBlogs(db);
-    console.log(auctionItems)
   }, [])
 
   const filter = (type) => {
@@ -148,13 +150,13 @@ export default function TitlebarImageList() {
       {dataClone.map((item) => (
         <ImageListItem cols={3} key={item.img} className='image-list_item'>
           <img
-            src={`https://images.unsplash.com/photo-1567306301408-9b74779a11af?w=248&fit=crop&auto=format`}
+            src={item.imgUrl}
             // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={item.name}
             loading="lazy"
           />
           <ImageListItemBar
-            title={item.name}
+            title={item.itemName}
             subtitle={item.author}
             actionIcon={
               <IconButton

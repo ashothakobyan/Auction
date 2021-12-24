@@ -7,7 +7,7 @@ import { TextField } from "@mui/material";
 import Time from "./Time"
 import { db, getUsers } from "../../firebais/fiarebaisForBuyers";
 import { useSelector } from "react-redux";
-import { doc, setDoc } from "firebase/firestore/lite";
+import { doc, setDoc,addDoc, collection } from "firebase/firestore/lite";
 
 
 function MySelerPage(){
@@ -17,19 +17,17 @@ function MySelerPage(){
     const[date,setDate] = useState()
     const[imgUrl,setImgUrl] = useState()
     const email = useSelector((state)=>state.auction.user.email)
+    const referance = useSelector((state)=>state.auction.user.referance)
 
     const addInfo = () => {
-        const users = getUsers(db)
-        users.then((usersInfo)=>{
-            const currentUser = usersInfo.find((userInfo)=>userInfo.email === email)
-            currentUser.mySelsItems.push({
-                itemName:itemName,
-                type:type,
-                itemPrice:itemPrice,
-                date:date,
-                imgUrl:imgUrl
-            })
-            setDoc(doc(db, "BuyerUsers", email), currentUser)
+
+        addDoc(collection(db, "AuctionItems" ), {
+            itemName:itemName,
+            type:type,
+            itemPrice:itemPrice,
+            date:date,
+            imgUrl:imgUrl,
+            buyerUser:referance
         })
 
     }

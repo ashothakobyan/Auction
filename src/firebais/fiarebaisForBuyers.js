@@ -26,7 +26,7 @@ export const storage = getStorage()
 export async function getUsers(db) {
   const citiesCol = collection(db, "BuyerUsers")
   const citySnapshot = await getDocs(citiesCol)
-  const cityList = citySnapshot.docs.map((doc) => doc.data())
+  const cityList = citySnapshot.docs.map((doc) =>({...doc.data(),reference:doc.ref}))
   return cityList;
 }
 export const auth = getAuth()

@@ -53,7 +53,9 @@ export default function ButtonAppBar() {
         const asd = ourusersInfo();
         asd.then(function (resolve) {
           const usersInfo = resolve;
+          
           const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+          console.log(currentUser)
           dispatch(setUser(
             {
               email: user.email,
@@ -62,6 +64,7 @@ export default function ButtonAppBar() {
               surName: currentUser.surName,
               balance: currentUser.balance,
               items: currentUser.myItems,
+              referance:currentUser.reference
             }
           ))
         })

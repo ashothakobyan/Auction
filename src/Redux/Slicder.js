@@ -19,6 +19,7 @@ const reducer = {
         state.user.surName = action.payload.surName
         state.user.balanse = action.payload.balanse
         state.user.uid = action.payload.uid
+        state.user.referance = action.payload.referance
 
     },
     setLiveDrow: (state, action) => {
