@@ -5,15 +5,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Link, useNavigate } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import { store } from '../Redux/Store';
+import { getAuth, signOut } from "firebase/auth";
+
 import { initialState, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
 
-import { db, getUsers } from '../firebais/fiarebaisForBuyers';
 
 
 
@@ -23,14 +22,8 @@ export default function ButtonAppBar() {
   const auth = getAuth()
   const dispatch = useDispatch()
   const navigateLink = useNavigate()
-  const liveDrow = useSelector((state) => state.auction.liveDrow)
-  const sta = useSelector((state) => state)
-
-  const arr = [1, 2, 3, 4, 5, 6, 7, 8]
-
-
-  const uid = useSelector((state) => state.auction.user.uid)
   const email = useSelector((state) => state.auction.user.email)
+  const IsAuth = useSelector((state) => state.auction.user.isAuth)
 
   const  signout = async (str) => {
     
@@ -38,6 +31,7 @@ export default function ButtonAppBar() {
       dispatch(setUser(
         initialState
       ))
+
       navigateLink(str)
       // Sign-out successful.
     }).catch((error) => {
@@ -46,43 +40,7 @@ export default function ButtonAppBar() {
   }
 
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      if(!email){
-        const ourusersInfo = () => getUsers(db);
-        const asd = ourusersInfo();
-        asd.then(function (resolve) {
-          const usersInfo = resolve;
-          
-          const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
-          console.log(currentUser)
-          dispatch(setUser(
-            {
-              email: user.email,
-              uid: user.uid,
-              name: currentUser.name,
-              surName: currentUser.surName,
-              balance: currentUser.balance,
-              items: currentUser.myItems,
-              referance:currentUser.reference
-            }
-          ))
-        })
-      }
 
-
-      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
-      // console.log(userInfo);
-
-      // uid = user.uid;
-      // const name = user.name
-      // email = user.email
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
 
  
 
@@ -107,7 +65,9 @@ export default function ButtonAppBar() {
               News
             </Typography>
             {
-              uid ?
+              console.log(IsAuth),
+              IsAuth ?
+              
                 <>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {email}

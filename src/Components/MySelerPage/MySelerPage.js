@@ -8,6 +8,7 @@ import Time from "./Time"
 import { db, getUsers } from "../../firebais/fiarebaisForBuyers";
 import { useSelector } from "react-redux";
 import { doc, setDoc,addDoc, collection } from "firebase/firestore/lite";
+import { v4 as uuidv4 } from 'uuid';
 
 
 function MySelerPage(){
@@ -18,6 +19,7 @@ function MySelerPage(){
     const[imgUrl,setImgUrl] = useState()
     const email = useSelector((state)=>state.auction.user.email)
     const referance = useSelector((state)=>state.auction.user.referance)
+    
 
     const addInfo = () => {
 
@@ -27,7 +29,8 @@ function MySelerPage(){
             itemPrice:itemPrice,
             date:date,
             imgUrl:imgUrl,
-            buyerUser:referance
+            buyerUser:referance, 
+            uid:uuidv4()
         })
 
     }

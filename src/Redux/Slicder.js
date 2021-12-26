@@ -6,7 +6,9 @@ export const initialState = {
         name: "",
         surName: "",
         balanse: "",
-        uid: ""
+        uid: "",
+        referance:"",
+        isAuth:""
     },
     liveDrow: "CardImg"
 }
@@ -20,12 +22,14 @@ const reducer = {
         state.user.balanse = action.payload.balanse
         state.user.uid = action.payload.uid
         state.user.referance = action.payload.referance
+        state.user.isAuth = action.payload.isAuth
 
     },
     setLiveDrow: (state, action) => {
         state.liveDrow = action.payload.liveDrow
 
-    }
+    },
+
 },
 
     counterSlice = createSlice({

@@ -55,12 +55,13 @@ export const addSeler = async (name, surName, email) => {
 }
 
 
-export const createUserForBuyer = (email, password) => {
+export const createUserForBuyer = async (email, password) => {
 
-  createUserWithEmailAndPassword(auth, email, password)
+  await createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user
+      return user
       // ...
     })
     .catch((error) => {

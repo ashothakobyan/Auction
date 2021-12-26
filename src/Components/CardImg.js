@@ -8,91 +8,18 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Button, ButtonGroup } from '@mui/material';
 import { db } from "../firebais/fiarebaisForBuyers";
 import { getFirestore, getDocs,collection, where, query } from "firebase/firestore/lite"
+import { useNavigate } from "react-router-dom";
 
 console.log(db)
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-    author: '@bkristastucchio',
-    type: 'car'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-    author: '@rollelflex_graphy726',
-    type: 'car'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    author: '@helloimnik',
-    type: 'image'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    author: '@nolanissac',
-    type: 'image'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    author: '@hjrc33',
-    type: 'other'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-    author: '@arwinneil',
-    type: 'other'
 
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-    author: '@tjdragotta',
-    type: 'other'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-    author: '@katie_wasserman',
-    type: 'other'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-    author: '@silverdalex',
-    type: 'other'
- 
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-    author: '@shelleypauls',
-    type: 'other'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-    author: '@peterlaster',
-    type: 'other'
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-    author: '@southside_customs',
-    type: 'car'
-  },
-];
 
-export default function TitlebarImageList() {
+export default function TitlebarImageList({setItem}) {
 
   // const [data, setData] = useState([...itemData])
   const [dataClone, setDataClone] = useState([])
   const [auctionItems,setAuctionItems]=useState([])
   const [activeButton, setActiveButton] = useState('all')
+  const navigate = useNavigate()
 
 
   const fetchBlogs= async (db)=>{
@@ -148,8 +75,12 @@ export default function TitlebarImageList() {
       <ListSubheader component="div">{<h1 style={{alignItems: 'center',}}>All items</h1>}</ListSubheader>
     </ImageListItem> */}
       {dataClone.map((item) => (
-        <ImageListItem cols={3} key={item.img} className='image-list_item'>
+        <ImageListItem  cols={3} key={item.img} className='image-list_item'>
           <img
+          onClick={()=>{
+            setItem(item)
+             navigate(`/buyPage/${item.itemName}`)
+          }}
             src={item.imgUrl}
             // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
             alt={item.name}
@@ -161,7 +92,7 @@ export default function TitlebarImageList() {
             actionIcon={
               <IconButton
                 sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                aria-label={`info about ${item.name}`}
+                aria-label={`info about ${item.itemName}`}
               >
                 <InfoIcon />
               </IconButton>

@@ -12,11 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { addBuyer, auth, createUserForBuyer, db, getUsers } from "../firebais/fiarebaisForBuyers"
+import { addBuyer, createUserForBuyer,  } from "../firebais/fiarebaisForBuyers"
 import { useNavigate } from "react-router-dom"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+
 import { setUser } from "../Redux/Slicder"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 function Copyright(props) {
   return (
@@ -36,49 +36,14 @@ const theme = createTheme()
 export default function SignUp() {
   const navigate = useNavigate()
   const dispatch  = useDispatch()
+  const isAuth = useSelector((state)=>state.auction.user.isAuth)
 
 
+  if(isAuth){
+    navigate("/")
+  }
 
 
-
-
-
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-
-      const ourusersInfo = () => getUsers(db);
-      const asd = ourusersInfo();
-      asd.then(function (resolve) {
-        const usersInfo = resolve;
-        const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
-        dispatch(setUser(
-          {
-            email: user.email,
-            uid: user.uid,
-            name: currentUser.name,
-            surName: currentUser.surName,
-            balance: currentUser.balance,
-            items: currentUser.myItems,
-          }
-        ))
-      })
-
-      navigate("/")
-
-      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
-      // console.log(userInfo);
-
-      // uid = user.uid;
-      // const name = user.name
-      // email = user.email
-      // ...
-    } else {
-      
-      // User is signed out
-      // ...
-    }
-  });
 
 
 
@@ -95,10 +60,11 @@ export default function SignUp() {
 
      
 
-    await createUserForBuyer(user.email, user.password)
+     const signUpUser = await createUserForBuyer(user.email, user.password)
     
 
-         addBuyer(user.name, user.surName, user.email,)
+        addBuyer(user.name, user.surName, user.email,)
+       console.log(signUpUser)
        
        dispatch(setUser({
          payload:{
@@ -106,7 +72,8 @@ export default function SignUp() {
            surName:user.surName,
            email:user.email,
           //  id:currenntUser.id,
-           balance:100000
+           balance:100000,
+           isAuth:true
          }
        }))
        navigate("/")

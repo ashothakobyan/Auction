@@ -5,7 +5,7 @@ import CardImg from "./CardImg"
 import { useSelector } from "react-redux"
 
 
-function Home() {
+function Home({setItem}) {
   const liveDrow = useSelector((state)=> state.auction.liveDrow)
   return (
     <div>
@@ -18,7 +18,7 @@ function Home() {
             </ButtonGroup> */}
                     {
           // liveDrow === "CardImg"?<CardImg  />:null
-          <CardImg  />
+          <CardImg setItem={setItem}  />
         }
     </div>
   )

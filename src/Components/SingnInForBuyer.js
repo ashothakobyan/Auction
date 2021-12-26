@@ -13,8 +13,8 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { useDispatch } from "react-redux"
-import { setUser } from "../Redux/Slicder"
+import { useDispatch, useSelector } from "react-redux"
+import {  setUser } from "../Redux/Slicder"
 import { useNavigate } from "react-router-dom"
 import { db, getUsers } from "../firebais/fiarebaisForBuyers"
 function Copyright(props) {
@@ -37,49 +37,60 @@ export default function SignIn() {
   const auth = getAuth();
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const isAuth = useSelector((state)=>state.auction.user.isAuth)
 
 
+  if(isAuth){
+    navigate("/")
+  }
 
-
-
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
+  const signIn = async(email,password) => {
+    
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const cuerrenUser = userCredential.user;
 
       const ourusersInfo = () => getUsers(db);
       const asd = ourusersInfo();
       asd.then(function (resolve) {
         const usersInfo = resolve;
-        const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+        const user = usersInfo.find((userInfo) => userInfo.email === email);
         dispatch(setUser(
           {
-            email: user.email,
-            uid: user.uid,
-            name: currentUser.name,
-            surName: currentUser.surName,
-            balance: currentUser.balance,
-            items: currentUser.myItems,
+            balanse:100000,
+            name:user.name,
+            surName:user.Surname,
+            email:cuerrenUser.id,
+            uid:cuerrenUser.id,
+            isAuth:true,
+            referance:user.referance
           }
         ))
       })
+      
+
+      
 
       navigate("/")
-
-      // const userInfo = usersInfo.find((userInfo) => userInfo.email === user.email)
-      // console.log(userInfo);
-
-      // uid = user.uid;
-      // const name = user.name
-      // email = user.email
+      
       // ...
-    }
-  });
+    })
+    .catch((error) => {
+      alert("smt is wrrong")
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+
+  }
+
+  
 
 
 
 
 
-  // auth.currentUser?navigate("/"):
+
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -90,26 +101,7 @@ export default function SignIn() {
       password: data.get("password"),
     }
     
-    signInWithEmailAndPassword(auth, user.email, user.password)
-    .then((userCredential) => {
-      // Signed in 
-      const cuerrenUser = userCredential.user;
-      console.log(cuerrenUser)
-      dispatch(setUser(
-        {
-          email:cuerrenUser.id,
-          uid:cuerrenUser.id
-        }
-      ))
-      navigate("/")
-      
-      // ...
-    })
-    .catch((error) => {
-      alert("smt is wrrong")
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+    signIn(user.email,user.password)
 
 
   }
