@@ -25,12 +25,10 @@ export default function ButtonAppBar() {
   const email = useSelector((state) => state.auction.user.email)
   const IsAuth = useSelector((state) => state.auction.user.isAuth)
 
-  const  signout = async (str) => {
-    
+  const signout = async (str) => {
+
     await signOut(auth).then(() => {
-      dispatch(setUser(
-        initialState
-      ))
+     
 
       navigateLink(str)
       // Sign-out successful.
@@ -42,7 +40,7 @@ export default function ButtonAppBar() {
 
 
 
- 
+
 
 
 
@@ -67,7 +65,7 @@ export default function ButtonAppBar() {
             {
               console.log(IsAuth),
               IsAuth ?
-              
+
                 <>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {email}

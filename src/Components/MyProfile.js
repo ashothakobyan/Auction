@@ -10,16 +10,20 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setUser } from '../Redux/Slicder';
 import NavigationBar from "./NavigationBar";
 
-import { collection, getDocs } from 'firebase/firestore/lite';
+import { collection, getDocs, query, where } from 'firebase/firestore/lite';
 import { db, getUsers } from '../firebais/fiarebaisForBuyers';
+import MyPurchase from './MySelerPage/MyPurchase';
 
 
 export default function MediaCard() {
-    let { uid, email, name, surName } = useSelector((state) => state.auction.user);
+
+    let { uid, email, name, surName, referance } = useSelector((state) => state.auction.user);
+    console.log(name, email)
 
 
     return (
         <div>
+
             <NavigationBar />
             <Card sx={{ maxWidth: 345 }}>
                 <CardMedia
@@ -42,6 +46,13 @@ export default function MediaCard() {
                     <Button size="small">My sales</Button>
                 </CardActions>
             </Card>
+            <div>
+                <MyPurchase email={email}/>
+
+            </div>
+            <div>
+                <h1>My Sales</h1>
+            </div>
         </div>
     );
 }

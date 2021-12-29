@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { addBuyer, createUserForBuyer,  } from "../firebais/fiarebaisForBuyers"
+import { addBuyer, createUserForBuyer, } from "../firebais/fiarebaisForBuyers"
 import { useNavigate } from "react-router-dom"
 
 import { setUser } from "../Redux/Slicder"
@@ -35,19 +35,14 @@ const theme = createTheme()
 
 export default function SignUp() {
   const navigate = useNavigate()
-  const dispatch  = useDispatch()
-  const isAuth = useSelector((state)=>state.auction.user.isAuth)
+  const dispatch = useDispatch()
+  const isAuth = useSelector((state) => state.auction.user.isAuth)
 
 
-  if(isAuth){
+  if (isAuth) {
     navigate("/")
   }
-
-
-
-
-
-   const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     // eslint-disable-next-line no-console
@@ -57,26 +52,21 @@ export default function SignUp() {
       name: data.get("firstName"),
       surName: data.get("lastName"),
     }
+    const signUpUser = await createUserForBuyer(user.email, user.password)
+    await addBuyer(user.name, user.surName, user.email,)
+    console.log(signUpUser)
 
-     
-
-     const signUpUser = await createUserForBuyer(user.email, user.password)
-    
-
-        addBuyer(user.name, user.surName, user.email,)
-       console.log(signUpUser)
-       
-       dispatch(setUser({
-         payload:{
-           name:user.name,
-           surName:user.surName,
-           email:user.email,
-          //  id:currenntUser.id,
-           balance:100000,
-           isAuth:true
-         }
-       }))
-       navigate("/")
+    dispatch(setUser({
+      payload: {
+        name: user.name,
+        surName: user.surName,
+        email: user.email,
+        //  id:currenntUser.id,
+        balance: 100000,
+        isAuth: true
+      }
+    }))
+    navigate("/")
 
   }
 

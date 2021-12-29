@@ -7,8 +7,8 @@ export const initialState = {
         surName: "",
         balanse: "",
         uid: "",
-        referance:"",
-        isAuth:""
+        referance: "",
+        isAuth: ""
     },
     liveDrow: "CardImg"
 }
@@ -16,13 +16,17 @@ export const initialState = {
 
 const reducer = {
     setUser: (state, action) => {
-        state.user.email = action.payload.email
-        state.user.name = action.payload.name
-        state.user.surName = action.payload.surName
-        state.user.balanse = action.payload.balanse
-        state.user.uid = action.payload.uid
-        state.user.referance = action.payload.referance
-        state.user.isAuth = action.payload.isAuth
+        // state.user.email = action.payload.email
+        // state.user.name = action.payload.name
+        // state.user.surName = action.payload.surName
+        // state.user.balanse = action.payload.balanse
+        // state.user.uid = action.payload.uid
+        // state.user.referance = action.payload.referance
+        // state.user.isAuth = action.payload.isAuth
+        state.user = {
+            ...state.user,
+            ...action.payload
+        }
 
     },
     setLiveDrow: (state, action) => {
