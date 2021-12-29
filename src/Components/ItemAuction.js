@@ -5,7 +5,7 @@ import AuctionPrice from "./AuctionPrice";
 
 
 export default function ItemAuction({item}){
-    const [ourItem,setOurItem] = useState()
+    
     const navigate = useNavigate()
     console.log(item)
 
@@ -30,7 +30,7 @@ export default function ItemAuction({item}){
         <div>
             <AuctionCard name={item?.itemName} src={item?.imgUrl} />
             {item?.itemPrice?item.itemPrice:null}
-            <AuctionPrice />
+            <AuctionPrice item={item} />
         </div>
     )
 }
