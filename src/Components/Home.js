@@ -7,6 +7,7 @@ import { useSelector } from "react-redux"
 
 function Home({setItem}) {
   const liveDrow = useSelector((state)=> state.auction.liveDrow)
+  
   return (
     <div>
       <NavigationBar />

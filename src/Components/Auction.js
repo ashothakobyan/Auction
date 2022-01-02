@@ -33,6 +33,7 @@ function Auction() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const allUsers = await getUsers(db)
+      
         const currentUser = allUsers.find((userInfo) => userInfo.email === user.email) || {};
         console.log(user, currentUser)
         dispatch(setUser(

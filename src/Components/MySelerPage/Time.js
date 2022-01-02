@@ -8,7 +8,7 @@ import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import Stack from '@mui/material/Stack';
 
 export default function ResponsiveDateTimePickers({setDate}) {
-  const [value, setValue] = React.useState(new Date());
+  const [value, setValue] = React.useState();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -17,7 +17,7 @@ export default function ResponsiveDateTimePickers({setDate}) {
           value={value}
           onChange={(newValue) => {
             setDate(newValue);
-            console.log(newValue)
+            setValue(newValue)
           }}
           renderInput={(params) => <TextField {...params} />}
         />

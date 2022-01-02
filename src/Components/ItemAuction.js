@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuctionCard from "./AuctionCard"
 import AuctionPrice from "./AuctionPrice";
+import NavigationBar from "./NavigationBar"
 
 
 export default function ItemAuction({item}){
@@ -12,7 +13,7 @@ export default function ItemAuction({item}){
 
     function asd(){
         if(!item){
-            console.log(1)
+     
             navigate("/")
     
         }
@@ -27,10 +28,11 @@ export default function ItemAuction({item}){
       
 
     return (
-        <div>
-            <AuctionCard name={item?.itemName} src={item?.imgUrl} />
-            {item?.itemPrice?item.itemPrice:null}
-            <AuctionPrice item={item} />
+        <div  >
+            <NavigationBar/>
+            <AuctionCard  about={item?.aboutItem} name={item?.itemName} src={item?.imgUrl} />
+
+            <AuctionPrice  item={item} />
         </div>
     )
 }
