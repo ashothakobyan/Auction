@@ -44,6 +44,9 @@ export default function TemporaryDrawer() {
             } else if (text==="My profile") {
               navigate("/myProfile")
             }
+            else if (text==="Live auction") {
+              navigate("/liveAuction")
+            }
           }}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
