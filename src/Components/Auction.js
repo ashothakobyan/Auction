@@ -85,7 +85,7 @@ async function funcAuth(){
         <Route path="*" element={<Home  setItem={setItem}/>} />
         <Route path="myProfile" element={<MyProfile />} />
         <Route path={`/buyPage/:card`} element={<ItemAuction item={item} />} />
-        <Route path="liveAuction" element={<LiveAuction />} />
+        <Route path="liveAuction" element={<LiveAuction setItem={setItem} />} />
       </Routes>
     </div>
   )

@@ -29,7 +29,7 @@ function MySelerPage() {
         addDoc(collection(db, "AuctionItems"), {
             itemName: itemName,
             type: type,
-            owner: email,
+            LiveOwner: "",
             itemPrice: itemPrice,
             date: date,
             imgUrl: imgUrl,
