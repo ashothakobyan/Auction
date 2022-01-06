@@ -4,6 +4,7 @@ import { db } from "../firebais/fiarebaisForBuyers";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Button } from "@mui/material";
 
 
 
@@ -75,13 +76,11 @@ import { useSelector } from "react-redux";
       }
 
     return(
-        <div style={{
-          border:"solid 2px green"
-        }}>
-          {live(ourItem) && <div>
-            {ourItem?.itemPrice}
-            <button onClick={addPrice}>add</button>
-            </div>}
+        <div className="live-auction-price">
+          {live(ourItem) && <>
+            <span>{ourItem?.itemPrice}</span>
+            <Button variant="contained" onClick={addPrice} className="add-btn">+ 100</Button>
+            </>}
             
         </div>
     )

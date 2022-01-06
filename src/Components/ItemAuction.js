@@ -30,12 +30,7 @@ export default function ItemAuction({item}){
     return (
         <div  >
             <NavigationBar/>
-            <div style={{
-                border:"solid 3px ",
-                position:"absolute",
-                display:"flex",
-                
-            }}>
+            <div className="live-auction-container">
                 <AuctionCard  about={item?.aboutItem} name={item?.itemName} src={item?.imgUrl} />
                 <AuctionPrice  item={item} />   
             </div>
