@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({setType}) {
+export default function ComboBox({setType,errorItems}) {
   
 const changeItemType = (e) =>{
     setType(e.target.innerText)
@@ -19,7 +19,7 @@ const changeItemType = (e) =>{
             id="combo-box-demo"
             options={top100Films}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Type" />}
+            renderInput={(params) => <TextField error = {errorItems.type?true:false} {...params} label="Type" />}
         />
      </div>
    

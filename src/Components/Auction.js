@@ -35,24 +35,23 @@ useEffect(()=>funcAuth(),[])
    onAuthStateChanged(auth, (user) => {
     if (user) {
       if(!isAuth){
-        const ourusersInfo = () => getUsers(db);
+        const ourusersInfo = async() => await getUsers(db);
         const asd = ourusersInfo();
         asd.then(function (resolve) {
           const usersInfo = resolve;
           
           const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
-
-        console.log(currentUser)
           dispatch(setUser(
             {
-              email: user.email,
-              uid: user.uid,
-              name: currentUser.name,
-              surName: currentUser.surName,
-              balance: currentUser.balance,
-              items: currentUser.myItems,
-              isAuth:true,
-              referance:currentUser.reference
+              
+                email: user.email,
+                uid: user.uid,
+                name: currentUser?.name,
+                surName: currentUser?.surName,
+                balance: currentUser?.balance,
+                items: currentUser?.myItems,
+                isAuth:true,
+                referance:currentUser?.reference
             }
           ))
         })

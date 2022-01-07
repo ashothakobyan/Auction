@@ -12,6 +12,7 @@ import { getAuth, signOut } from "firebase/auth";
 
 import { initialState, setAuth, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
+import { Avatar } from '@mui/material';
 
 
 
@@ -24,7 +25,8 @@ export default function ButtonAppBar() {
   const navigateLink = useNavigate()
   const email = useSelector((state) => state.auction.user.email)
   const IsAuth = useSelector((state) => state.auction.user.isAuth)
-
+  const name = useSelector((state) => state.auction.user.name)
+  const surname = useSelector((state) => state.auction.user.surName)
   const signout = async (str) => {
 
     await signOut(auth).then(() => {
@@ -53,16 +55,20 @@ export default function ButtonAppBar() {
             >
               <Drawer />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+            <Avatar style={{
+             
+            }}  src="/broken-image.jpg" />
+            <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              
+              
             </Typography>
             {
-              console.log(IsAuth),
+              
               IsAuth ?
 
                 <>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {email}
+                  {`   ${name}  ${surname}`}
                   </Typography>
                   <Button color='warning' onClick={() => signout("/")}>Log out </Button>
                 </>

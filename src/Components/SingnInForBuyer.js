@@ -38,7 +38,7 @@ export default function SignIn() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const isAuth = useSelector((state)=>state.auction.user.isAuth)
-
+  const[errForUser,seterrorForUsr] = React.useState({})
 
   if(isAuth){
     navigate("/")
@@ -79,9 +79,19 @@ export default function SignIn() {
       // ...
     })
     .catch((error) => {
-      alert("smt is wrrong")
+      
       const errorCode = error.code;
       const errorMessage = error.message;
+      console.log(errorMessage)
+      if(errorMessage == "Firebase: Error (auth/invalid-email)." || errorMessage == "Firebase: Error (auth/user-not-found)."){
+        seterrorForUsr({
+          user:true,
+        })
+      }else if("Firebase: Error (auth/wrong-password)."){
+        seterrorForUsr({
+          password:true
+        })
+      }
     });
 
   }
@@ -128,6 +138,7 @@ export default function SignIn() {
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
+              error={errForUser.user?true:false}
               margin="normal"
               required
               fullWidth
@@ -138,6 +149,7 @@ export default function SignIn() {
               autoFocus
             />
             <TextField
+            error={errForUser.password?true:false}
               margin="normal"
               required
               fullWidth

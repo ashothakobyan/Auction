@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { getAuth, createUserWithEmailAndPassword,  } from "firebase/auth"
 import { addBuyer, createUserForBuyer, } from "../firebais/fiarebaisForBuyers"
 import { useNavigate } from "react-router-dom"
 
@@ -37,7 +38,10 @@ export default function SignUp() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isAuth = useSelector((state) => state.auction.user.isAuth)
+  const[userError,setUserError] = React.useState({})
 
+
+  const auth = getAuth()
 
   if (isAuth) {
     navigate("/")
@@ -52,21 +56,57 @@ export default function SignUp() {
       name: data.get("firstName"),
       surName: data.get("lastName"),
     }
-    const signUpUser = await createUserForBuyer(user.email, user.password)
-    await addBuyer(user.name, user.surName, user.email,)
-    console.log(signUpUser)
 
-    dispatch(setUser({
-      payload: {
-        name: user.name,
-        surName: user.surName,
-        email: user.email,
-        //  id:currenntUser.id,
-        balance: 100000,
-        isAuth: true
+     await createUserWithEmailAndPassword(auth, user?.email, user?.password)
+    .then(async(userCredential) => {
+      // Signed in
+      console.log(user)
+      await addBuyer(user.name, user.surName, user.email,)
+
+   
+      dispatch(setUser({
+        payload: {
+          name: user.name,
+          surName: user.surName,
+          email: user.email,
+          //  id:currenntUser.id,
+          balance: 100000,
+          isAuth: true
+        }
+      }))
+      
+
+
+      navigate("/")
+
+      // ...
+    })
+    .catch((error) => {
+      console.log("asd")
+      if(error.message == "Firebase: Error (auth/invalid-email)."){
+        setUserError({email:true})
+      }else if(error.message == "Firebase: Error (auth/internal-error)."){
+      
+        setUserError({
+          email:true,
+          name:true,
+          surname:true
+        })
+      }else if(error.message == "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+      
+        setUserError({
+         password:true
+        })
       }
-    }))
-    navigate("/")
+     
+      
+
+      const errorCode = error.code
+      const errorMessage = error.message
+      
+      // ..
+    })
+   
 
   }
 
@@ -92,6 +132,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                error={userError.name?true:false}
                   autoComplete="given-name"
                   name="firstName"
                   required
@@ -103,6 +144,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
+                error={userError.surname?true:false}
                   required
                   fullWidth
                   id="lastName"
@@ -113,6 +155,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error={userError.email?true:false}
                   required
                   fullWidth
                   id="email"
@@ -123,6 +166,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  error={userError.password?true:false}
                   required
                   fullWidth
                   name="password"

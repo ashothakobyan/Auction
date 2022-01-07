@@ -65,9 +65,10 @@ export const createUserForBuyer = async (email, password) => {
       // ...
     })
     .catch((error) => {
-      alert("error")
+      throw new Error(error.message)
       const errorCode = error.code
       const errorMessage = error.message
+      console.log(errorMessage)
       // ..
     })
 }

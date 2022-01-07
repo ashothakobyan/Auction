@@ -7,22 +7,30 @@ import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import Stack from '@mui/material/Stack';
 
-export default function ResponsiveDateTimePickers({setDate}) {
+export default function ResponsiveDateTimePickers({errorItems,setDate}) {
   const [value, setValue] = React.useState();
 
+  
+
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Stack spacing={3}>
+    <LocalizationProvider   dateAdapter={AdapterDateFns}>
+      <Stack style={{
+        collor:"red"
+      }} spacing={3}>
+        
         <MobileDateTimePicker
+        
+        maxTime = {new Date(0, 0, 0, 18, 45)}
+  {...(errorItems.date)?new Date(0, 0, 0, 18, 45):null}
+
           value={value}
           onChange={(newValue) => {
             setDate(newValue);
             setValue(newValue)
           }}
-          renderInput={(params) => <TextField {...params} />}
+          renderInput={(params) => <TextField   {...params} />}
         />
-        
-        
+       
       </Stack>
     </LocalizationProvider>
   );

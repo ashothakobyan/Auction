@@ -39,8 +39,8 @@ function UpoadImg({setImgUrl}){
         }}>
 
             <UploadButton  changeImg={changeImg} />
-            <Fab variant="extended" onClick={addImg}>
-                <NavigationIcon sx={{ mr: 1 }} />
+            <Fab  variant="extended" onClick={addImg}>
+                <NavigationIcon sx={{ mr: 1, }} />
                 Add
             </Fab>
 
