@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useCallback, useEffect, useState} from "react"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 
-console.log(db)
+
 
 
 export default function TitlebarImageList({setItem}) {
@@ -25,22 +25,26 @@ export default function TitlebarImageList({setItem}) {
   const navigate = useNavigate()
 
 
-  const fetchBlogs= async (db)=>{
+  const fetchBlogs= useCallback(async function fetchBlogs (db){
     const response=collection(db,'AuctionItems');
     const q = query(response, where("date", ">=", new Date(new Date()-600000)))
     const data = await getDocs(q);
     const auctionAllItems = data.docs.map(item => {
-      console.log(item.data())
       return item.data()
     })
     setAuctionItems(auctionAllItems)
     setDataClone(auctionAllItems)
-    console.log(data)
-  }
+
+  })
 
   useEffect(() => {
     fetchBlogs(db);
   }, [])
+
+  useEffect(()=>{
+    const int = setInterval(()=>fetchBlogs(db),200000000000)
+    return ()=> clearInterval(int)
+   },[])
 
   const filter = (type) => {
     let dataClone = []

@@ -58,13 +58,15 @@ export default function SignIn() {
         const user = usersInfo.find((userInfo) => userInfo.email === email);
         dispatch(setUser(
           {
-            balanse:100000,
-            name:user.name,
-            surName:user.Surname,
-            email:cuerrenUser.id,
-            uid:cuerrenUser.id,
-            isAuth:true,
-            referance:user.referance
+            payload:{
+              balanse:100000,
+              name:user.name,
+              surName:user.Surname,
+              email:cuerrenUser.id,
+              uid:cuerrenUser.id,
+              isAuth:true,
+              referance:user.referance
+            }
           }
         ))
       })

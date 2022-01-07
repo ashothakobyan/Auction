@@ -11,8 +11,9 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import { setLiveDrow } from '../Redux/Slicder';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 
 export default function TemporaryDrawer() {
   const dispatch = useDispatch()
@@ -20,6 +21,10 @@ export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
     left: false,
   });
+  const isAuth = useSelector((state)=>state.auction.user.isAuth)
+  const arrForUsers = ["Home Page",'My profile',"Live auction"]
+  const arrForEvryone = ["Home Page","Live auction"]
+  const arr1 = isAuth?arrForUsers:arrForEvryone
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -37,7 +42,7 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Home Page",'My profile',"Live auction"].map((text, index) => (
+        {arr1.map((text, index) => (
           <ListItem button key={text} onClick={()=>{
             if(text==="Home Page"){
               navigate("/")
@@ -57,7 +62,7 @@ export default function TemporaryDrawer() {
       </List>
       <Divider />
       <List>
-        {["My Seler Page"].map((text, index) => (
+        {isAuth?["My Seler Page"].map((text, index) => (
           <ListItem button key={text} onClick={()=>{
             if(text==="My Seler Page"){
               dispatch(setLiveDrow({
@@ -73,7 +78,7 @@ export default function TemporaryDrawer() {
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
-        ))}
+        )):null}
       </List>
     </Box>
   );

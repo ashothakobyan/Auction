@@ -4,6 +4,7 @@ import { db } from "../firebais/fiarebaisForBuyers";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TextField } from "@mui/material";
 
 
 
@@ -33,7 +34,6 @@ import { useSelector } from "react-redux";
       setDoc(doc(db, "BuyerUsers/" + ourItem.liveOwner ),myUser)
       navigate("/")
     }
-    console.log(new Date (item?.date.toDate().getTime() + 600000))
     if(new Date (item?.date.toDate().getTime() + 600000) <= new Date()){
       setItem()
       
@@ -61,7 +61,7 @@ import { useSelector } from "react-redux";
       
       useEffect(()=>fetchBlogs(db),[])
       useEffect(()=>{
-       const int = setInterval(()=>fetchBlogs(db),2000)
+       const int = setInterval(()=>fetchBlogs(db),10000000000000)
        return ()=> clearInterval(int)
       },[fetchBlogs])
 
@@ -81,6 +81,15 @@ import { useSelector } from "react-redux";
           {live(ourItem) && <div>
             {ourItem?.itemPrice}
             <button onClick={addPrice}>add</button>
+            <TextField
+                // onChange={(e) => changeItemPrice(e)}
+                id="outlined-number"
+                label="Item Price($)"
+                type="number"
+                // InputLabelProps={{
+                //     shrink: true,
+                // }}
+                />
             </div>}
             
         </div>

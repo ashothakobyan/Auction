@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, signOut } from "firebase/auth";
 
-import { initialState, setUser } from '../Redux/Slicder';
+import { initialState, setAuth, setUser } from '../Redux/Slicder';
 import Drawer from "./Drawer"
 
 
@@ -28,8 +28,8 @@ export default function ButtonAppBar() {
   const signout = async (str) => {
 
     await signOut(auth).then(() => {
-     
-
+     console.log(444)
+      dispatch(setAuth())
       navigateLink(str)
       // Sign-out successful.
     }).catch((error) => {

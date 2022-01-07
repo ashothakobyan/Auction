@@ -28,9 +28,8 @@ const changeItemType = (e) =>{
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
-  { label: 'All', },
-  { label: 'Car', },
-  { label: 'Antiq', },
-  { label: '......', },
-  { label: '......', },
+  { label: 'all', },
+  { label: 'car', },
+  { label: "image" },
+  { label: "other" },
 ]

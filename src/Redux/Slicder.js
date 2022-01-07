@@ -33,6 +33,9 @@ const reducer = {
         state.liveDrow = action.payload.liveDrow
 
     },
+    setAuth:(state) => {
+        state.user.isAuth =""
+    }
 
 },
 
@@ -43,6 +46,6 @@ const reducer = {
     })
 
 // Action creators are generated for each case reducer function
-export const { setUser, setLiveDrow } = counterSlice.actions
+export const { setUser, setLiveDrow,setAuth } = counterSlice.actions
 
 export default counterSlice.reducer

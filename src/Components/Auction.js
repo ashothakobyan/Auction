@@ -31,8 +31,8 @@ const dispatch = useDispatch()
 const auth = getAuth()
 const isAuth = useSelector((state)=>state.auction.isAuth)
 useEffect(()=>funcAuth(),[])
-async function funcAuth(){
-  await onAuthStateChanged(auth, (user) => {
+ function funcAuth(){
+   onAuthStateChanged(auth, (user) => {
     if (user) {
       if(!isAuth){
         const ourusersInfo = () => getUsers(db);
@@ -82,10 +82,10 @@ async function funcAuth(){
         <Route path="/signUpForBuyer" element={<SignUpForBuyer />} />
         <Route path="/signInForBuyer" element={<SignInForBuyer />} />
         <Route path="/pageForBuyer" element={<BuyerPage />} />
-        <Route path="*" element={<Home  setItem={setItem}/>} />
-        <Route path="myProfile" element={<MyProfile />} />
+        <Route path="/myProfile" element={<MyProfile />} />
         <Route path={`/buyPage/:card`} element={<ItemAuction item={item} />} />
-        <Route path="liveAuction" element={<LiveAuction setItem={setItem} />} />
+        <Route path="/liveAuction" element={<LiveAuction setItem={setItem} />} />
+        <Route path="*" element={<Home  setItem={setItem}/>} />
       </Routes>
     </div>
   )
