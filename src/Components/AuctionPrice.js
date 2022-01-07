@@ -4,7 +4,7 @@ import { db } from "../firebais/fiarebaisForBuyers";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 
 
@@ -61,7 +61,7 @@ import { TextField } from "@mui/material";
       
       useEffect(()=>fetchBlogs(db),[])
       useEffect(()=>{
-       const int = setInterval(()=>fetchBlogs(db),10000000000000)
+       const int = setInterval(()=>fetchBlogs(db),1000)
        return ()=> clearInterval(int)
       },[fetchBlogs])
 
@@ -75,22 +75,11 @@ import { TextField } from "@mui/material";
       }
 
     return(
-        <div style={{
-          border:"solid 2px green"
-        }}>
-          {live(ourItem) && <div>
-            {ourItem?.itemPrice}
-            <button onClick={addPrice}>add</button>
-            <TextField
-                // onChange={(e) => changeItemPrice(e)}
-                id="outlined-number"
-                label="Item Price($)"
-                type="number"
-                // InputLabelProps={{
-                //     shrink: true,
-                // }}
-                />
-            </div>}
+        <div className="live-auction-price">
+          {live(ourItem) && <>
+            <span>{ourItem?.itemPrice}</span>
+            <Button variant="contained" onClick={addPrice} className="add-btn">+ 100</Button>
+            </>}
             
         </div>
     )

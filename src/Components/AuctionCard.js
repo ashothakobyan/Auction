@@ -15,7 +15,7 @@ export default function ImgMediaCard({about,src,name}) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {name}
+          Name:{name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
         {<h2>Abot lot</h2>}

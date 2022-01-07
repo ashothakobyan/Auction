@@ -12,10 +12,8 @@ export default function BasicTextFields({setAbout}) {
       noValidate
       autoComplete="off"
     >
-      <TextField onChange={(e)=>setAbout(e.target.value)} style={{
-          width:300
-      }}  id="outlined-basic" label="Outlined" variant="outlined" />
-
+      <TextField onChange={(e)=>setAbout(e.target.value)}  multiline
+          rows={3}  id="outlined-basic" label="Desciption" variant="outlined" />
     </Box>
   );
 }

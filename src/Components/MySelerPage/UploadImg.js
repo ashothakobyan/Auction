@@ -11,7 +11,6 @@ function UpoadImg({setImgUrl}){
 
      const changeImg = (e) => {
         setImg(e.target.files[0])
-        console.log(e.target.files[0],img)
     }
 
  const addImg = () => {
@@ -19,19 +18,16 @@ function UpoadImg({setImgUrl}){
     const mountainImagesRef = ref(storage, `images/${img.name}`);
 
     const storageRef = ref(storage, `images/${img.name}`);
-    console.log(storageRef)
     
     uploadBytes(storageRef, img).then((snapshot) => {
     
-    console.log('Uploaded a blob or file!',snapshot);
+    console.log(url);
     });
     const uploadTask = uploadBytesResumable(storageRef, img)
     
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       setUrl(downloadURL)
-      setImgUrl(downloadURL)
-      console.log(downloadURL)
-      
+      setImgUrl(downloadURL)      
     });
  }
 

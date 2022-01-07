@@ -8,15 +8,14 @@ import { useNavigate } from "react-router-dom"
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCcu2OOK2f6r6reLHvPJ82E9lozwUJ7-BY",
-  authDomain: "my-app-8e6b1.firebaseapp.com",
-  databaseURL: "https://my-app-8e6b1-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "my-app-8e6b1",
-  storageBucket: "my-app-8e6b1.appspot.com",
-  messagingSenderId: "641212395427",
-  appId: "1:641212395427:web:6b6eea9321aa7f7c313416",
-  measurementId: "G-QDZNQFK34N"
+  apiKey: "AIzaSyAEK1uK292lxPgvfa23bzkmw-6uzlesHu8",
+  authDomain: "auction-44e7c.firebaseapp.com",
+  projectId: "auction-44e7c",
+  storageBucket: "auction-44e7c.appspot.com",
+  messagingSenderId: "601879417252",
+  appId: "1:601879417252:web:1a61121bfc5145246c3131"
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

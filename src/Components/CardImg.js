@@ -42,7 +42,7 @@ export default function TitlebarImageList({setItem}) {
   }, [])
 
   useEffect(()=>{
-    const int = setInterval(()=>fetchBlogs(db),200000000000)
+    const int = setInterval(()=>fetchBlogs(db),20000)
     return ()=> clearInterval(int)
    },[])
 
