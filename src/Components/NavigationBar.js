@@ -27,7 +27,6 @@ export default function ButtonAppBar() {
   const signout = async (str) => {
 
     await signOut(auth).then(() => {
-     console.log(444)
       dispatch(setAuth())
       navigateLink(str)
       // Sign-out successful.

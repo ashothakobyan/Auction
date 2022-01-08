@@ -8,7 +8,9 @@ export const initialState = {
         balanse: "",
         uid: "",
         referance: "",
-        isAuth: ""
+        isAuth: "",
+        userIMg:"",
+        myBougthItems:""
     },
     liveDrow: "CardImg"
 }

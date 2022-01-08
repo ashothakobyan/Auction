@@ -44,7 +44,6 @@ useEffect(()=>funcAuth(),[])
           console.log(currentUser)
           dispatch(setUser(
             {
-
                 email: user.email,
                 uid: user.uid,
                 name: currentUser?.name,
