@@ -38,7 +38,12 @@ export default function SignUp() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isAuth = useSelector((state) => state.auction.user.isAuth)
-  const[userError,setUserError] = React.useState({})
+  const[userError,setUserError] = React.useState({
+    email: true,
+      password: true,
+      name: true,
+      surName: true,
+  })
 
 
   const auth = getAuth()
@@ -56,7 +61,12 @@ export default function SignUp() {
       name: data.get("firstName"),
       surName: data.get("lastName"),
     }
-
+    if(!user.name || !user.surName){
+      setUserError(
+        user
+      )
+      return
+    }
      await createUserWithEmailAndPassword(auth, user?.email, user?.password)
     .then(async(userCredential) => {
       // Signed in
@@ -82,24 +92,46 @@ export default function SignUp() {
       // ...
     })
     .catch((error) => {
-      console.log("asd")
-      if(error.message == "Firebase: Error (auth/invalid-email)."){
-        setUserError({email:true})
-      }else if(error.message == "Firebase: Error (auth/internal-error)."){
-      
+      console.log(user)
+      console.log(error.message)
+      if(error.message == "Firebase: Error (auth/invalid-email)." && user.password.length >= 6 ){
         setUserError({
-          email:true,
-          name:true,
-          surname:true
+          ...user,
+          email:false
+        })
+      }else if(error.message == "Firebase: Error (auth/invalid-email)." && user.password.length < 6){
+        setUserError({
+          ...user,
+          email:false,
+          password:false,
         })
       }else if(error.message == "Firebase: Password should be at least 6 characters (auth/weak-password)."){
-      
         setUserError({
-         password:true
+          ...user,
+          password:false
         })
       }
-     
+      else{
+        setUserError(user)
+      }
       
+      // if(error.message == "Firebase: Error (auth/internal-error)."){
+      
+      //   setUserError({
+      //     email:true,
+      //     name:true,
+      //     surname:true
+      //   })
+      // }
+      //  if(!user.password || error.message == "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+        
+      //   setUserError({
+      //     ...userError,
+      //    password:true
+      //   })
+      // }
+     
+      console.log(user.password)
 
       const errorCode = error.code
       const errorMessage = error.message
@@ -132,7 +164,7 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                error={userError.name?true:false}
+                error={userError.name?false:true}
                   autoComplete="given-name"
                   name="firstName"
                   required
@@ -144,7 +176,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                error={userError.surname?true:false}
+                error={userError.surName?false:true}
                   required
                   fullWidth
                   id="lastName"
@@ -155,7 +187,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={userError.email?true:false}
+                  error={userError.email?false:true}
                   required
                   fullWidth
                   id="email"
@@ -166,7 +198,7 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  error={userError.password?true:false}
+                  error={userError.password?false:true}
                   required
                   fullWidth
                   name="password"

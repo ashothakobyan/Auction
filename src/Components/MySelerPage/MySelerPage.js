@@ -13,52 +13,53 @@ import ItemAbout from"./ItemAbout"
 
 
 function MySelerPage() {
-    const [itemName, setItemName] = useState()
-    const [type, setType] = useState()
-    const [itemPrice, setItemPrice] = useState()
-    const [date, setDate] = useState()
-    const [imgUrl, setImgUrl] = useState()
-    const [about,setAbout] = useState()
-    const email = useSelector((state) => state.auction.user.email)
+    const [item,setItem] = useState({})
     const referance = useSelector((state) => state.auction.user.referance)
+    const email = useSelector((state) => state.auction.user.email)
     const [success, setSuccess] = useState()
     const [errorItems,setErrorItems] = useState({})
 
 
     const addInfo = () => {
-        if(itemName && type && itemPrice && date && imgUrl && about) {
+        if(item.itemName && item.type && item.itemPrice && item.date && item.imgUrl && item.about) {
+            console.log(item)
             addDoc(collection(db, "AuctionItems"), {
-                itemName: itemName,
-                type: type,
+                itemName: item.itemName,
+                type: item.type,
                 LiveOwner: "",
-                itemPrice: itemPrice,
-                date: date,
-                imgUrl: imgUrl,
+                itemPrice: item.itemPrice,
+                date: item.date,
+                imgUrl: item.imgUrl,
                 buyerUser: referance,
                 uid: uuidv4(),
-                aboutItem:about
+                owner:email,
+                aboutItem:item.about,
             })
 
             setSuccess(true)
         } else {
             setErrorItems({
-                name:itemName?false:true,
-                type:type?false:true,
-                price:itemPrice?false:true,
-                date:date?false:true,
-                img:imgUrl?false:true,
-                aboutItem:about?false:true
+                name:item.itemName?false:true,
+                type:item.type?false:true,
+                price:item.itemPrice?false:true,
+                date:item.date?false:true,
+                img:item.imgUrl?false:true,
+                aboutItem:item.about?false:true
             })
             setSuccess(false)
         }
     }
     const changeItemName = (e) => {
-        setItemName(e.target.value)
-        console.log(e.target.value)
+        setItem({
+            ...item,
+            itemName:e.target.value
+        })
     }
     const changeItemPrice = (e) => {
-        setItemPrice(e.target.value)
-        console.log(e.target.value)
+        setItem({
+            ...item,
+            itemPrice:e.target.value
+        })
     }
     return (
         <div>
@@ -69,7 +70,7 @@ function MySelerPage() {
             
                         <div className="my-seler-page-container_item">
                             <TextField error = {errorItems.name?true:false} onChange={(e) => changeItemName(e)} id="outlined-basic" label="ItemName" variant="outlined" className="" />
-                            <ChuseTypes errorItems={errorItems}  setType={setType} />
+                            <ChuseTypes item={item} errorItems={errorItems}  setItem={setItem} />
                         </div>
                         <div className="my-seler-page-container_item">
                             <TextField
@@ -79,13 +80,13 @@ function MySelerPage() {
                                 label="Item Price($)"
                                 type="number"
                             />
-                            <Time errorItems={errorItems}  setDate={setDate} />
+                            <Time errorItems={errorItems}  setItem={setItem} item={item} />
                         </div>
                         <div className="uploade-img_field">
-                            <UploadImg errorItems={errorItems} setImgUrl={setImgUrl} />
+                            <UploadImg errorItems={errorItems} setItem={setItem} item ={item} />
                         </div>
                         <div className="auction-description">
-                        <ItemAbout errorItems={errorItems}  setAbout={setAbout} />
+                        <ItemAbout errorItems={errorItems}  setItem={setItem} item ={item} />
                         </div>
                     {/* <button onClick={() => addInfo()}>addddddd</button> */}
                     <Button variant="contained" onClick={() => addInfo()} className="add-btn">Add</Button>

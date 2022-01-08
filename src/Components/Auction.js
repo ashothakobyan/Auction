@@ -41,17 +41,19 @@ useEffect(()=>funcAuth(),[])
           const usersInfo = resolve;
           
           const currentUser = usersInfo.find((userInfo) => userInfo.email === user.email);
+          console.log(currentUser)
           dispatch(setUser(
             {
-              
+
                 email: user.email,
                 uid: user.uid,
                 name: currentUser?.name,
                 surName: currentUser?.surName,
                 balance: currentUser?.balance,
-                items: currentUser?.myItems,
+                myBougthItems: currentUser?.myBougthItems,
                 isAuth:true,
-                referance:currentUser?.reference
+                referance:currentUser?.reference,
+                userImg:currentUser?.userImg
             }
           ))
         })

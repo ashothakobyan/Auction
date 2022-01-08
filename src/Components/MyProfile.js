@@ -10,35 +10,65 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { setUser } from '../Redux/Slicder';
 import NavigationBar from "./NavigationBar";
 
-import { collection, getDocs, query, where } from 'firebase/firestore/lite';
+import { collection, getDoc, getDocs, query, where } from 'firebase/firestore/lite';
 import { db, getUsers } from '../firebais/fiarebaisForBuyers';
 import MyPurchase from './MySelerPage/MyPurchase';
+import { Input } from '@mui/material';
+import UploadImgForUser from './UploadImgForUSer';
 
 
 export default function MediaCard() {
 
-    let { uid, email, name, surName, referance } = useSelector((state) => state.auction.user);
-    console.log(name, email)
+    let { uid, email, name, surName, referance,myBougthItems,userImg} = useSelector((state) => state.auction.user);
+    const[myPurchaseItems,setMyPurchaseItems] = React.useState([])
 
+
+    const fetchBlogs = React.useCallback(async (db, e) => {
+        const response = collection(db, 'AuctionItems');
+        const q = query(response, where("owner", "==", e))
+        const data = await getDocs(q);
+        const auctionAllItems = data.docs.map(item => {
+            return item.data()
+        })
+        const d = await Promise.all(auctionAllItems.map(async (item) => {
+            const u = await getDoc(item.buyerUser)
+            return {
+                u: u.data(),
+                ...item
+            }
+        }))
+
+        setMyPurchaseItems(d);
+    }, [])
+
+
+    React.useEffect(() => {
+        if (email) {
+            fetchBlogs(db, email)
+        }
+    }, [email, fetchBlogs])
 
     return (
         <div>
 
             <NavigationBar />
             <Card sx={{ maxWidth: 345 }}>
-                <CardMedia
+                <CardMedia 
+                    style={{
+                        borderRadius: "50%"
+                    }}
                     component="img"
-                    height="240"
-                    image="/static/images/cards/contemplative-reptile.jpg"
+                    image={userImg || "https://firebasestorage.googleapis.com/v0/b/auction-44e7c.appspot.com/o/usersImgs%2FuserImg.png?alt=media&token=3fe49da6-c47c-45b6-a239-2fffe2f5511a"}
                     alt="User"
                 />
+                <UploadImgForUser />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
 
                         {name + " " + surName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        You have 0 purchase and 0 sales
+                        You have {myPurchaseItems?.length} purchase and {myBougthItems?.length} sales
                     </Typography>
                 </CardContent>
                 <CardActions>

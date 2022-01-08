@@ -4,7 +4,7 @@ import UploadButton from "./UploadeButton";
 import { Fab } from "@mui/material";
 import NavigationIcon from '@mui/icons-material/Navigation'
 
-function UpoadImg({setImgUrl}){
+function UpoadImg({setItem,item}){
     const[img,setImg] = useState("")
     const storage = getStorage();
     const[url,setUrl] = useState()
@@ -27,7 +27,10 @@ function UpoadImg({setImgUrl}){
     
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       setUrl(downloadURL)
-      setImgUrl(downloadURL)      
+      setItem({
+          ...item,
+          imgUrl:downloadURL
+      })      
     });
  }
 

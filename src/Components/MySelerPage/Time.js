@@ -7,7 +7,7 @@ import MobileDateTimePicker from '@mui/lab/MobileDateTimePicker';
 import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 import Stack from '@mui/material/Stack';
 
-export default function ResponsiveDateTimePickers({errorItems,setDate}) {
+export default function ResponsiveDateTimePickers({errorItems,setItem,item}) {
   const [value, setValue] = React.useState();
 
   
@@ -25,7 +25,10 @@ export default function ResponsiveDateTimePickers({errorItems,setDate}) {
 
           value={value}
           onChange={(newValue) => {
-            setDate(newValue);
+            setItem({
+              ...item,
+              date:newValue
+            })
             setValue(newValue)
           }}
           renderInput={(params) => <TextField   {...params} />}

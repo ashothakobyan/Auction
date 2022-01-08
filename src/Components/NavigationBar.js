@@ -23,10 +23,7 @@ export default function ButtonAppBar() {
   const auth = getAuth()
   const dispatch = useDispatch()
   const navigateLink = useNavigate()
-  const email = useSelector((state) => state.auction.user.email)
-  const IsAuth = useSelector((state) => state.auction.user.isAuth)
-  const name = useSelector((state) => state.auction.user.name)
-  const surname = useSelector((state) => state.auction.user.surName)
+  const user = useSelector((state) => state.auction.user)
   const signout = async (str) => {
 
     await signOut(auth).then(() => {
@@ -57,18 +54,18 @@ export default function ButtonAppBar() {
             </IconButton>
             <Avatar style={{
              
-            }}  src="/broken-image.jpg" />
+            }}  src={user.userImg || "/broken-image.jpg"} />
             <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
               
               
             </Typography>
             {
               
-              IsAuth ?
+              user.isAuth ?
 
                 <>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  {`   ${name}  ${surname}`}
+                  {`   ${user.name}  ${user.surName}`}
                   </Typography>
                   <Button color='warning' onClick={() => signout("/")}>Log out </Button>
                 </>

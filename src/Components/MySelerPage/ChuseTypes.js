@@ -2,11 +2,13 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({setType,errorItems}) {
+export default function ComboBox({item,setItem,errorItems}) {
   
 const changeItemType = (e) =>{
-    setType(e.target.innerText)
-    console.log(e.target.innerText)
+  setItem({
+    ...item,
+    type:e.target.innerText
+  })
 }
 
   return (

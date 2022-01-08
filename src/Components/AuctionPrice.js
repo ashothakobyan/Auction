@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
+import SignInOrSignUp from "./MySelerPage/IsAuthForAuction";
 
 
 
@@ -13,6 +14,8 @@ import { Button } from "@mui/material";
     const navigate = useNavigate()
     let [ourItem,setOurItem] = useState()
     const email = useSelector((state) => state.auction.user.email)
+    const isAuth = useSelector((state) => state.auction.user.isAuth)
+    const [signUp,setSignUP] = useState()
 
     if(!item){
       navigate("/")
@@ -61,14 +64,22 @@ import { Button } from "@mui/material";
       
       useEffect(()=>fetchBlogs(db),[])
       useEffect(()=>{
-       const int = setInterval(()=>fetchBlogs(db),1000)
+       const int = setInterval(()=>fetchBlogs(db),3000)
        return ()=> clearInterval(int)
       },[fetchBlogs])
 
       async function addPrice(){
-            ourItem.itemPrice = Number(ourItem.itemPrice)  + 100
-            ourItem.liveOwner = email
-            await setDoc(doc(db, "AuctionItems/" + ourItem.asd ),ourItem)
+        console.log(isAuth)
+            if(isAuth){
+              ourItem.itemPrice = Number(ourItem.itemPrice)  + 100
+              ourItem.liveOwner = email
+              await setDoc(doc(db, "AuctionItems/" + ourItem.asd ),ourItem)
+            }else{
+              setSignUP(true)
+              console.log(444)
+              
+            }
+
 
 
           
@@ -76,10 +87,16 @@ import { Button } from "@mui/material";
 
     return(
         <div className="live-auction-price">
+          {signUp&&<SignInOrSignUp setSignUP={setSignUP} />}  
           {live(ourItem) && <>
             <span>{ourItem?.itemPrice}</span>
             <Button variant="contained" onClick={addPrice} className="add-btn">+ 100</Button>
             </>}
+            {
+              !live(ourItem) && <>
+                <h3>Coming soon...</h3>
+              </>
+            }
             
         </div>
     )
