@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { Link, Route, Routes } from "react-router-dom"
-import Home from "./Home"
+import Home from "./HomePage/Home"
 import SignUpForBuyer from "./SingnUpForBuyer"
 import SignInForBuyer from "./SingnInForBuyer"
-import BuyerPage from "./BuyerPage"
-
-
-
-
 import MySelerPage from "./MySelerPage/MySelerPage"
 import { db, getUsers } from "../firebais/fiarebaisForBuyers"
-import MyProfile from "./MyProfile"
+import MyProfile from "./MyProfile/MyProfile"
 import { useDispatch, useSelector } from "react-redux"
 import { setUser } from "../Redux/Slicder"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import ItemAuction from "./ItemAuction"
-import LiveAuction from "./LiveAuction"
-
-
-
-
+import ItemAuction from "./LiveAuction/ItemAuction"
+import LiveAuction from "./LiveAuction/LiveAuction"
 
 
 
@@ -30,11 +21,12 @@ function Auction() {
 const dispatch = useDispatch()
 const auth = getAuth()
 const isAuth = useSelector((state)=>state.auction.isAuth)
+const name = useSelector((state)=>state.auction.name)
 useEffect(()=>funcAuth(),[])
  function funcAuth(){
    onAuthStateChanged(auth, (user) => {
     if (user) {
-      if(!isAuth){
+      if(!isAuth ){
         const ourusersInfo = async() => await getUsers(db);
         const asd = ourusersInfo();
         asd.then(function (resolve) {
@@ -44,6 +36,7 @@ useEffect(()=>funcAuth(),[])
           console.log(currentUser)
           dispatch(setUser(
             {
+              
                 email: user.email,
                 uid: user.uid,
                 name: currentUser?.name,
@@ -53,6 +46,8 @@ useEffect(()=>funcAuth(),[])
                 isAuth:true,
                 referance:currentUser?.reference,
                 userImg:currentUser?.userImg
+              
+
             }
           ))
         })
@@ -81,7 +76,6 @@ useEffect(()=>funcAuth(),[])
         <Route path="/mySelerPage" element={ <MySelerPage />} />
         <Route path="/signUpForBuyer" element={<SignUpForBuyer />} />
         <Route path="/signInForBuyer" element={<SignInForBuyer />} />
-        <Route path="/pageForBuyer" element={<BuyerPage />} />
         <Route path="/myProfile" element={<MyProfile />} />
         <Route path={`/buyPage/:card`} element={<ItemAuction item={item} />} />
         <Route path="/liveAuction" element={<LiveAuction setItem={setItem} />} />

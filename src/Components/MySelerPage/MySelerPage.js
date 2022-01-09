@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore/lite";
 import { v4 as uuidv4 } from 'uuid';
 import ItemAbout from"./ItemAbout"
+import SuccessUpload from "./SuccessUpload";
 
 
 
@@ -88,14 +89,9 @@ function MySelerPage() {
                         <div className="auction-description">
                         <ItemAbout errorItems={errorItems}  setItem={setItem} item ={item} />
                         </div>
-                    {/* <button onClick={() => addInfo()}>addddddd</button> */}
                     <Button variant="contained" onClick={() => addInfo()} className="add-btn">Add</Button>
-                    {success &&     <Alert variant="filled" severity="success" className='alert success-alert'>
-                    This is a success alert — check it out!
-                </Alert> 
-                // : <Alert variant="filled" severity="error" className='alert error-alert'>
-                // please fill in all the fields
-                // </Alert>
+                    {success && <SuccessUpload setItem={setItem} setErrorItems={setErrorItems} /> 
+    
                 }
                 
             </div>

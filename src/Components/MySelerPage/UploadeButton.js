@@ -8,11 +8,13 @@ const Input = styled('input')({
   display: 'none',
 });
 
-export default function UploadButtons({changeImg,addImg}) {
+export default function UploadButtons({addImg}) {
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       <label htmlFor="contained-button-file">
-        <Input onChange={(e)=>changeImg(e)}  accept="image/*" id="contained-button-file" multiple type="file"  />
+        <Input onChange={async(e)=>{
+           addImg(e.target.files[0])
+        }}  accept="image/*" id="contained-button-file" multiple type="file"  />
         <Button variant="contained" component="span">
           Upload
         </Button>

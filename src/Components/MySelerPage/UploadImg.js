@@ -1,31 +1,28 @@
 import React, { useState } from "react";
 import { getDownloadURL, getMetadata, getStorage, ref, uploadBytes, uploadBytesResumable, } from "firebase/storage";
 import UploadButton from "./UploadeButton";
-import { Fab } from "@mui/material";
-import NavigationIcon from '@mui/icons-material/Navigation'
+
+
+
+
 
 function UpoadImg({setItem,item}){
     const[img,setImg] = useState("")
     const storage = getStorage();
     const[url,setUrl] = useState()
 
-     const changeImg = (e) => {
-        setImg(e.target.files[0])
-    }
-
- const addImg = () => {
+ const addImg = (img) => {
     const mountainsRef = ref(storage, img.name);
     const mountainImagesRef = ref(storage, `images/${img.name}`);
 
     const storageRef = ref(storage, `images/${img.name}`);
     
     uploadBytes(storageRef, img).then((snapshot) => {
-    
-    console.log(url);
     });
     const uploadTask = uploadBytesResumable(storageRef, img)
     
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log(downloadURL)
       setUrl(downloadURL)
       setItem({
           ...item,
@@ -41,11 +38,7 @@ function UpoadImg({setItem,item}){
             display:"flex"
         }}>
 
-            <UploadButton  changeImg={changeImg} />
-            <Fab  variant="extended" onClick={addImg}>
-                <NavigationIcon sx={{ mr: 1, }} />
-                Add
-            </Fab>
+            <UploadButton addImg={addImg} />
 
             <img src={url} height="300px" width="300px"></img>
         </div>

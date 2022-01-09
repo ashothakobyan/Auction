@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuctionCard from "./AuctionCard"
 import AuctionPrice from "./AuctionPrice";
-import NavigationBar from "./NavigationBar"
+import NavigationBar from "../NavigationBar"
 
 
 export default function ItemAuction({item}){

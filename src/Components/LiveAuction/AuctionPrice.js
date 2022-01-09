@@ -1,11 +1,11 @@
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore/lite";
 import React, { useCallback, useEffect, useState }  from "react";
-import { db } from "../firebais/fiarebaisForBuyers";
+import { db } from "../../firebais/fiarebaisForBuyers";
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import SignInOrSignUp from "./MySelerPage/IsAuthForAuction";
+import SignInOrSignUp from "./IsAuthForAuction";
 
 
 

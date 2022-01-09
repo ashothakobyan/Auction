@@ -36,7 +36,7 @@ const reducer = {
 
     },
     setAuth:(state) => {
-        state.user.isAuth =""
+        state.user = initialState
     }
 
 },

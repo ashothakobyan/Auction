@@ -2,12 +2,11 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
 
-export default function SignInOrSignUp({setSignUP}) {
+export default function SuccessUpload({setErrorItems,setItem}) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate()
 
@@ -21,41 +20,32 @@ export default function SignInOrSignUp({setSignUP}) {
 
   return (
     <div>
-      <Button  style={{
-          display:"none"
-      }} variant="outlined" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
+
       <Dialog
         open={open}
         onClose={()=>{
             handleClose()
-            setSignUP(false)
+            setItem({})
+            setErrorItems({})
+            navigate("/myProfile")
         }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"You Can't paertisipate auction beacus you dont have an acount"}
+          {"You add successfully your item "}
+          <Alert variant="filled" severity="success" >
+                    This is a success alert — check it out!
+                </Alert> 
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            
-          </DialogContentText>
-        </DialogContent>
+
         <DialogActions>
           <Button onClick={()=>{
-              setSignUP(false)
               handleClose()
-              navigate("/signInForBuyer")
-          }}>SignIn</Button>
-          <Button onClick={()=>{
-              setSignUP(false)
-              handleClose()
-              navigate("/signUpForBuyer")
-              }} autoFocus>
-            SignUp
-          </Button>
+              setItem({})
+              setErrorItems({})
+              navigate("/myProfile")
+          }}>My Profile</Button>
         </DialogActions>
       </Dialog>
     </div>

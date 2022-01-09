@@ -6,10 +6,10 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
 import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore/lite";
-import { storage } from '../firebais/fiarebaisForBuyers';
-import { setUser } from '../Redux/Slicder';
+import { storage } from '../../firebais/fiarebaisForBuyers';
+import { setUser } from '../../Redux/Slicder';
 import { useDispatch, useSelector } from 'react-redux';
-import { db } from "../firebais/fiarebaisForBuyers";
+import { db } from "../../firebais/fiarebaisForBuyers";
 
 const Input = styled('input')({
   display: 'none',

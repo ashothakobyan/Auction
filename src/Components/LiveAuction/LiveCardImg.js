@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react"
+import React, {useEffect, useState} from "react"
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -6,17 +6,18 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 import { Button, ButtonGroup } from '@mui/material';
-import { db } from "../firebais/fiarebaisForBuyers";
+import { db } from "../../firebais/fiarebaisForBuyers";
 import { getFirestore, getDocs,collection, where, query } from "firebase/firestore/lite"
 import { useNavigate } from "react-router-dom";
 
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { ConstructionOutlined, ContentPasteOutlined } from "@mui/icons-material";
 
 
+console.log(db)
 
 
-
-export default function TitlebarImageList({setItem}) {
+export default function LiveCardImg({setItem}) {
 
   // const [data, setData] = useState([...itemData])
   const [dataClone, setDataClone] = useState([])
@@ -25,26 +26,25 @@ export default function TitlebarImageList({setItem}) {
   const navigate = useNavigate()
 
 
-  const fetchBlogs= useCallback(async function fetchBlogs (db){
+  const fetchBlogs= async (db)=>{
     const response=collection(db,'AuctionItems');
     const q = query(response, where("date", ">=", new Date(new Date()-600000)))
     const data = await getDocs(q);
-    const auctionAllItems = data.docs.map(item => {
+    let auctionAllItems = data.docs.map(item => {
+     
       return item.data()
-    })
+    }) 
+    console.log(auctionAllItems)
+    auctionAllItems=auctionAllItems.filter((item)=>  item.date.toDate()<=new Date() ) 
+    console.log(auctionAllItems)
     setAuctionItems(auctionAllItems)
     setDataClone(auctionAllItems)
-
-  })
+   
+  }
 
   useEffect(() => {
     fetchBlogs(db);
   }, [])
-
-  useEffect(()=>{
-    const int = setInterval(()=>fetchBlogs(db),20000)
-    return ()=> clearInterval(int)
-   },[])
 
   const filter = (type) => {
     let dataClone = []

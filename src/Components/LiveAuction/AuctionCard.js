@@ -23,7 +23,6 @@ export default function ImgMediaCard({about,src,name,owner}) {
         <Typography variant="body2" color="text.secondary">
         {<h2>Abot lot</h2>}
         {about}
-      
         </Typography>
       </CardContent>
     </Card>
