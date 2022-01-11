@@ -53,9 +53,7 @@ export default function MediaCard() {
         <div>
 
             <NavigationBar />
-         <div style={{
-             display:"flex"
-         }}>
+         <div className='my-profile-content'>
          <Card sx={{ maxWidth: 345 }}>
                 <div>
                     <CardMedia 
@@ -78,11 +76,13 @@ export default function MediaCard() {
                     </CardContent>
                 </div>
             </Card>
-            <div>
-                <MyPurchase myPurchaseItems={myPurchaseItems}/>
-            </div>
-            <div>
-                <MySales myBougthItems={myBougthItems} />
+            <div className='my-profile-content_item'>
+                <div>
+                    <MyPurchase myPurchaseItems={myPurchaseItems}/>
+                </div>
+                <div>
+                    <MySales myBougthItems={myBougthItems} />
+                </div>
             </div>
          </div>
       

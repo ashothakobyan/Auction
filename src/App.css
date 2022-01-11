@@ -110,3 +110,57 @@
 .live-auction-price button {
     margin: 0 10px !important;
 }
+
+#root .css-pxxd1-MuiImageListItem-root .MuiImageListItem-img {
+    object-fit: contain;
+}
+
+.live-auction-container img {
+    height: auto;
+}
+
+.my-profile-content_item {
+   display: flex;
+    
+}
+
+.my-profile-content_item  div {
+    padding: 10px 14px;
+}
+.my-profile-content .MuiPaper-root {
+    margin: auto;
+}
+
+#root .my-profile-content .css-pxxd1-MuiImageListItem-root .MuiImageListItem-img {
+    object-fit: cover;
+}
+
+.info-block-content {
+    opacity: 0;
+    position: absolute;
+    z-index: 0;
+    padding: 15px 10px;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 16px;
+}
+.info-block-content:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: black;
+    opacity: .4;
+    z-index: -1;
+}
+.info-block:hover .info-block-content {
+    opacity: 1;
+}
+
+.info-btn {
+    position: inherit !important;
+}
