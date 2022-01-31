@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-export default function ImgMediaCard({about,src,name,owner}) {
+export default function AuctionCard({about,src,name,owner}) {
   return (
     <Card  sx={{ maxWidth: 345 }}>
       <CardMedia

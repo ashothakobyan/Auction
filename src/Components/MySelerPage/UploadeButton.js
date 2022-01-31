@@ -19,9 +19,6 @@ export default function UploadButtons({addImg}) {
           Upload
         </Button>
       </label>
-      <label htmlFor="icon-button-file">
-        <Input accept="image/*" id="icon-button-file" type="file" />
-      </label>
     </Stack>
   );
 }

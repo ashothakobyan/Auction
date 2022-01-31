@@ -9,10 +9,6 @@ export default function SignInOrSignUp({setSignUP}) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate()
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };

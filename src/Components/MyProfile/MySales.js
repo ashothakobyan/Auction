@@ -1,13 +1,8 @@
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useSelector } from 'react-redux';
-import { collection, getDocs, query, where, getDoc } from 'firebase/firestore/lite';
-import { db } from '../../firebais/fiarebaisForBuyers';
 
 export default function MySales({myBougthItems}) {
-
-  
     return (
         <div>
             {

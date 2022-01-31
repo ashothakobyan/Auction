@@ -5,21 +5,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth, signOut } from "firebase/auth";
-
-import { initialState, setAuth, setUser } from '../Redux/Slicder';
+import {setAuth } from '../Redux/Slicer';
 import Drawer from "./Drawer"
 import { Avatar } from '@mui/material';
 
-
-
-
-
-
-export default function ButtonAppBar() {
+export default function NavigationBar() {
   const auth = getAuth()
   const dispatch = useDispatch()
   const navigateLink = useNavigate()
@@ -29,9 +22,7 @@ export default function ButtonAppBar() {
     await signOut(auth).then(() => {
       dispatch(setAuth())
       navigateLink(str)
-      // Sign-out successful.
     }).catch((error) => {
-      // An error happened.
     });
   }
 
@@ -51,47 +42,28 @@ export default function ButtonAppBar() {
             >
               <Drawer />
             </IconButton>
-            <Avatar style={{
-             
+            <Avatar style={{ 
             }}  src={user.userImg || "/broken-image.jpg"} />
             <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              
-              
             </Typography>
             {
-              
               user.isAuth ?
-
                 <>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                   {`   ${user.name}  ${user.surName}`}
                   </Typography>
                   <Button color='warning' onClick={() => signout("/")}>Log out </Button>
                 </>
-
                 :
                 <>
                   <Button color='warning' onClick={() => navigateLink("/signInForBuyer")}>Sign In </Button>
                   <Button color='warning' onClick={() => navigateLink("/signUpForBuyer")}>Sign Up </Button>
                 </>
             }
-
-
           </Toolbar>
         </AppBar>
 
       </Box>
-
-
-
-      {/* {
-          liveDrow === "MySelerPage"?<MySelerPage />:null
-        } */}
-
-
-
-
-
     </>
 
 

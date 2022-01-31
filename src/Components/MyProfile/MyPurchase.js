@@ -1,13 +1,8 @@
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useSelector } from 'react-redux';
-import { collection, getDocs, query, where, getDoc } from 'firebase/firestore/lite';
-import { db } from '../../firebais/fiarebaisForBuyers';
 
 export default function MyPurchase({myPurchaseItems}) {
-
-  
     return (
         <div>
             {
@@ -27,7 +22,6 @@ export default function MyPurchase({myPurchaseItems}) {
                     </ImageList>
                 </>:<h1>You Don't have Purchase</h1>
             }
-
         </div>
     );
 }

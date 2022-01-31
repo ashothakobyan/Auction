@@ -2,7 +2,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function ComboBox({item,setItem,errorItems}) {
+export default function ChooseTypes({item,setItem,errorItems}) {
   
 const changeItemType = (e) =>{
   setItem({
@@ -19,7 +19,7 @@ const changeItemType = (e) =>{
             onChange={(e)=>changeItemType(e)}
             disablePortal
             id="combo-box-demo"
-            options={top100Films}
+            options={types}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField error = {errorItems.type?true:false} {...params} label="Type" />}
         />
@@ -28,8 +28,7 @@ const changeItemType = (e) =>{
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
+const types = [
   { label: 'all', },
   { label: 'car', },
   { label: "image" },

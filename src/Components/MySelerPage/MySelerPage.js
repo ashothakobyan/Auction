@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import NavigationBar from "../NavigationBar"
 import UploadImg from "./UploadImg"
-import ChuseTypes from "./ChuseTypes"
-import { Alert, Button, TextField } from "@mui/material";
+import ChooseTypes from "./ChooseTypes"
+import { Button, TextField } from "@mui/material";
 import Time from "./Time"
-import { db, getUsers } from "../../firebais/fiarebaisForBuyers";
+import { db } from "../../firebais/fiarebaisForBuyers";
 import { useSelector } from "react-redux";
-import { doc, setDoc, addDoc, collection } from "firebase/firestore/lite";
+import {addDoc, collection } from "firebase/firestore/lite";
 import { v4 as uuidv4 } from 'uuid';
 import ItemAbout from"./ItemAbout"
 import SuccessUpload from "./SuccessUpload";
@@ -23,7 +23,6 @@ function MySelerPage() {
 
     const addInfo = () => {
         if(item.itemName && item.type && item.itemPrice && item.date && item.imgUrl && item.about) {
-            console.log(item)
             addDoc(collection(db, "AuctionItems"), {
                 itemName: item.itemName,
                 type: item.type,
@@ -71,11 +70,11 @@ function MySelerPage() {
             
                         <div className="my-seler-page-container_item">
                             <TextField error = {errorItems.name?true:false} onChange={(e) => changeItemName(e)} id="outlined-basic" label="ItemName" variant="outlined" className="" />
-                            <ChuseTypes item={item} errorItems={errorItems}  setItem={setItem} />
+                            <ChooseTypes item={item} errorItems={errorItems}  setItem={setItem} />
                         </div>
                         <div className="my-seler-page-container_item">
                             <TextField
-                                error = {errorItems.price?true:false}
+                                error = {!!errorItems.price}
                                 onChange={(e) => changeItemPrice(e)}
                                 id="outlined-number"
                                 label="Item Price($)"
@@ -91,9 +90,7 @@ function MySelerPage() {
                         </div>
                     <Button variant="contained" onClick={() => addInfo()} className="add-btn">Add</Button>
                     {success && <SuccessUpload setItem={setItem} setErrorItems={setErrorItems} /> 
-    
                 }
-                
             </div>
         </div>
     )

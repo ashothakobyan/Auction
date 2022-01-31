@@ -2,9 +2,8 @@ import { initializeApp } from "firebase/app"
 import "firebase/auth";
 import 'firebase/storage';
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite"
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { doc, setDoc } from "@firebase/firestore/lite"
-import { useNavigate } from "react-router-dom"
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -24,10 +23,10 @@ export const storage = getStorage()
 
 
 export async function getUsers(db) {
-  const citiesCol = collection(db, "BuyerUsers")
-  const citySnapshot = await getDocs(citiesCol)
-  const cityList = citySnapshot.docs.map((doc) =>({...doc.data(),reference:doc.ref}))
-  return cityList;
+  const buyersCol = collection(db, "BuyerUsers")
+  const buyersSnapshot = await getDocs(buyersCol)
+  const buyersList = buyersSnapshot.docs.map((doc) =>({...doc.data(),reference:doc.ref}))
+  return buyersList;
 }
 export const auth = getAuth()
 export const addBuyer = async (name, surName, email) => {
@@ -41,20 +40,6 @@ export const addBuyer = async (name, surName, email) => {
   }
   await setDoc(doc(db, "BuyerUsers", email), data)
 }
-
-
-
-export const addSeler = async (name, surName, email) => {
-  const data = {
-    name: name,
-    surName: surName,
-    email: email,
-    itemsForSell: [],
-  }
-  await setDoc(doc(db, "SelerUsers", email), data)
-}
-
-
 export const createUserForBuyer = async (email, password) => {
 
   await createUserWithEmailAndPassword(auth, email, password)
@@ -66,10 +51,6 @@ export const createUserForBuyer = async (email, password) => {
     })
     .catch((error) => {
       throw new Error(error.message)
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorMessage)
-      // ..
     })
 }
 

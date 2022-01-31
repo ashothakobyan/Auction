@@ -14,7 +14,7 @@ import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux"
-import {  setUser } from "../Redux/Slicder"
+import {  setUser } from "../Redux/Slicer"
 import { useNavigate } from "react-router-dom"
 import { db, getUsers } from "../firebais/fiarebaisForBuyers"
 function Copyright(props) {
@@ -45,7 +45,6 @@ export default function SignIn() {
   }
 
   const signIn = async(email,password) => {
-    
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
@@ -58,31 +57,23 @@ export default function SignIn() {
         const user = usersInfo.find((userInfo) => userInfo.email === email);
         dispatch(setUser(
           {
-            payload:{
-              balanse:100000,
-              name:user.name,
-              surName:user.Surname,
-              email:cuerrenUser.id,
-              uid:cuerrenUser.id,
-              isAuth:true,
-              referance:user.referance
-            }
+            balanse:100000,
+            name:user.name,
+            surName:user.Surname,
+            email:cuerrenUser.id,
+            uid:cuerrenUser.id,
+            isAuth:true,
+            referance:user.referance
+            
           }
         ))
       })
-      
-
-      
-
       navigate("/")
       
       // ...
     })
     .catch((error) => {
-      
-      const errorCode = error.code;
       const errorMessage = error.message;
-      console.log(errorMessage)
       if(errorMessage == "Firebase: Error (auth/invalid-email)." || errorMessage == "Firebase: Error (auth/user-not-found)."){
         seterrorForUsr({
           user:true,
@@ -95,27 +86,14 @@ export default function SignIn() {
     });
 
   }
-
-  
-
-
-
-
-
-
-
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
     const user = {
       email: data.get("email"),
       password: data.get("password"),
     }
-    
     signIn(user.email,user.password)
-
-
   }
 
   return (

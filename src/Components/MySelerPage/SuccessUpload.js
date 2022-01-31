@@ -9,11 +9,6 @@ import { Alert } from '@mui/material';
 export default function SuccessUpload({setErrorItems,setItem}) {
   const [open, setOpen] = React.useState(true);
   const navigate = useNavigate()
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };

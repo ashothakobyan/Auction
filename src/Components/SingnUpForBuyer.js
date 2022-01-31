@@ -13,10 +13,9 @@ import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { getAuth, createUserWithEmailAndPassword,  } from "firebase/auth"
-import { addBuyer, createUserForBuyer, } from "../firebais/fiarebaisForBuyers"
+import { addBuyer, db, getUsers, } from "../firebais/fiarebaisForBuyers"
 import { useNavigate } from "react-router-dom"
-
-import { setUser } from "../Redux/Slicder"
+import { setUser } from "../Redux/Slicer"
 import { useDispatch, useSelector } from "react-redux"
 
 function Copyright(props) {
@@ -44,17 +43,13 @@ export default function SignUp() {
       name: true,
       surName: true,
   })
-
-
   const auth = getAuth()
-
   if (isAuth) {
     navigate("/")
   }
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
     const user = {
       email: data.get("email"),
       password: data.get("password"),
@@ -70,30 +65,23 @@ export default function SignUp() {
      await createUserWithEmailAndPassword(auth, user?.email, user?.password)
     .then(async(userCredential) => {
       // Signed in
-      console.log(user)
       await addBuyer(user.name, user.surName, user.email,)
-
-   
+      const users = await getUsers(db)
+      const currentUser = users.find((userInfo) => userInfo.email === user.email);
       dispatch(setUser({
-        payload: {
-          name: user.name,
-          surName: user.surName,
-          email: user.email,
-          //  id:currenntUser.id,
-          balance: 100000,
-          isAuth: true
-        }
+        name: user.name,
+        surName: user.surName,
+        email: user.email,
+        balance: 100000,
+        isAuth: true,
+        myBougthItems: currentUser?.myBougthItems,
+        referance:currentUser?.reference,
+        userImg:currentUser?.userImg,
       }))
-      
-
-
       navigate("/")
-
       // ...
     })
     .catch((error) => {
-      console.log(user)
-      console.log(error.message)
       if(error.message == "Firebase: Error (auth/invalid-email)." && user.password.length >= 6 ){
         setUserError({
           ...user,
@@ -114,34 +102,8 @@ export default function SignUp() {
       else{
         setUserError(user)
       }
-      
-      // if(error.message == "Firebase: Error (auth/internal-error)."){
-      
-      //   setUserError({
-      //     email:true,
-      //     name:true,
-      //     surname:true
-      //   })
-      // }
-      //  if(!user.password || error.message == "Firebase: Password should be at least 6 characters (auth/weak-password)."){
-        
-      //   setUserError({
-      //     ...userError,
-      //    password:true
-      //   })
-      // }
-     
-      console.log(user.password)
-
-      const errorCode = error.code
-      const errorMessage = error.message
-      
-      // ..
     })
-   
-
   }
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

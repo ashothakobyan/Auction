@@ -1,48 +1,36 @@
 import React, { useState } from "react";
-import { getDownloadURL, getMetadata, getStorage, ref, uploadBytes, uploadBytesResumable, } from "firebase/storage";
+import { getDownloadURL,  getStorage, ref, uploadBytes, uploadBytesResumable, } from "firebase/storage";
 import UploadButton from "./UploadeButton";
+import { v4 as uuidv4 } from 'uuid'
 
 
-
-
-
-function UpoadImg({setItem,item}){
-    const[img,setImg] = useState("")
+function UploadImg({setItem,item}){
     const storage = getStorage();
     const[url,setUrl] = useState()
-
- const addImg = (img) => {
-    const mountainsRef = ref(storage, img.name);
-    const mountainImagesRef = ref(storage, `images/${img.name}`);
-
-    const storageRef = ref(storage, `images/${img.name}`);
-    
+    const addImg = (img) => {
+    if(!img){
+        return
+    }
+    const storageRef = ref(storage, `images/${uuidv4()}`);
     uploadBytes(storageRef, img).then((snapshot) => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUrl(downloadURL)
+          setItem({
+              ...item,
+              imgUrl:downloadURL
+          })      
+        });
     });
     const uploadTask = uploadBytesResumable(storageRef, img)
-    
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log(downloadURL)
-      setUrl(downloadURL)
-      setItem({
-          ...item,
-          imgUrl:downloadURL
-      })      
-    });
  }
-
-
-
     return(
         <div style={{
             display:"flex"
         }}>
-
             <UploadButton addImg={addImg} />
-
             <img src={url} height="300px" width="300px"></img>
         </div>
     )
 }
 
-export default UpoadImg
+export default UploadImg
